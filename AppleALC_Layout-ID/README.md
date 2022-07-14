@@ -410,7 +410,7 @@ Now that we know to enter the routing data into the PlatformsXX.xml file, we can
 There are 2 methods for creating a `PlatformsXX.xml` file: one utilizes VoodooHDA.kext and a forgotten script called `GetDumpXML`. It generates a `Platforms.xml` file, which contains all the required Nodes for switching Inputs/Outputs manually. It works out of the box and allows you to skip Chapter IX completely which is a big time saver. Unfortunately, this method doesn't work beyond macOS Catalina, so users of Big Sur and newer need to follow the manual method instead.
 
 ### Automated method using VoodooHDA and GetDumpXML (macOS ≤ 10.15.7 only)
-- Download [**GetDumpXML.zip**](https://github.com/5T33Z0/AppleALC-Guides/blob/main/AppleALC_Layout-ID/Tools/GetDumpXML.zip) and unpack it
+- Download [**GetDumpXML.zip**](https://github.com/5T33Z0/AppleALC-Guides/blob/main/AppleALC_Layout-ID/Tools/GetDumpXML.zip?raw=true) and unpack it
 - Add VoodooHDA.kext to your EFI's kext folder and config.plist.
 - Disable/delete AppleALC.kext
 - Reboot
