@@ -30,8 +30,8 @@ Users who already have Linux installed can skip to "Dumping the Audio Codec"!
 5. ⚠️ Rename `card0-codec#0.txt` to `codec_dump.txt`. Otherwise the script convert it will fail. 
 
 ## Creating Codec dump Schematics
-- Install [**graphviz**](https://github.com/5T33Z0/OC-Little-Translated/blob/main/L_ALC_Layout-ID/graphviz-2.40.1.pkg?raw=true) 
-- Next, download and unzip [**Codec-Graph.zip**](https://github.com/5T33Z0/OC-Little-Translated/blob/main/L_ALC_Layout-ID/Codec-Graph.zip?raw=true)
+- Install [**graphviz**](https://github.com/5T33Z0/AppleALC-Guides/blob/main/AppleALC_Layout-ID/Tools/graphviz-2.40.1.pkg?raw=true) 
+- Next, download and unzip [**Codec-Graph.zip**](https://github.com/5T33Z0/AppleALC-Guides/blob/main/AppleALC_Layout-ID/Tools/Codec-Graph.zip?raw=true)
 - Copy the `Codec-Graph` folder to the Desktop
 - Move the `codec_dump.txt` into the "Codec-Graph" folder 
 - Double-Click on "Convert_Dump" and follow the instructions
