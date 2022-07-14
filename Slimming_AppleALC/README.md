@@ -3,7 +3,7 @@ This guide is for compiling AppleALC for your Codec only. This reduced the kext 
 
 ## Preparations
 - Download and install the [correct version](https://developer.apple.com/support/xcode/) of [**Xcode**](https://developer.apple.com/download/all/?q=xcode) supported by your macOS. The download is about 10 GB and the installed application is about 30 GB in total, so make sure you have enough disk space. And: make sure to move the app to the "Programs" folder – otherwise compiling fails.
-- Configure Xcode as [described here](https://github.com/5T33Z0/OC-Little-Translated/tree/main/L_ALC_Layout-ID#configuring-xcode)
+- Configure Xcode as [described here](https://github.com/5T33Z0/AppleALC-Guides/tree/main/AppleALC_Layout-ID#configuring-xcode)
 - Install a Plist Editor
 - Download [AppleALC](https://github.com/acidanthera/AppleALC) Source Code (click on "Code" and "Download Zip") 
 - Unpack the .zip file
