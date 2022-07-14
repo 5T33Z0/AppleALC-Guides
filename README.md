@@ -1,7 +1,8 @@
 ![macOS](https://img.shields.io/badge/Supported_macOS:-≤13.0_beta-white.svg)
 
 # AppleALC Guides
-![](/Users/5t33z0/Desktop/AppleALC_Guides/Codec_Dumps/ALCS1200A/codec_dump_dec.txt.svg)
+
+![codec_dump_dec txt](https://user-images.githubusercontent.com/76865553/179084185-f4e7a08c-a298-413f-affb-f08bbecd7be4.svg)
 
 ## About
 
