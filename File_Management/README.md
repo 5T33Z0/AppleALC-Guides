@@ -26,3 +26,5 @@ To revert to settings of a previous build, you only have to copy the backed up f
 
 ![Backup-n-Restore](https://user-images.githubusercontent.com/76865553/172054278-8b98ab30-97a6-4a64-b705-d560b11f13c0.png)
 
+## Credits
+- Acidanthera for [AppleALC](https://github.com/acidanthera/AppleALC) and [Lilu](https://github.com/acidanthera/Lilu)
