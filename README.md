@@ -2,6 +2,8 @@
 
 # AppleALC Guides
 
+![codec_dump txt](https://user-images.githubusercontent.com/76865553/179084535-62f3634b-8e3e-4807-b0c1-bb04c035c5e0.svg)
+
 ## About
 
 This repository contains guides for working with the AppleALC source code to get audio working on Wintel machines running macOS. The centerpiece of this repo is a guide for creating/modifying ALC Layout-IDs for the `AppleALC.kext`.
