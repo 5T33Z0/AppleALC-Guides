@@ -11,11 +11,11 @@ The centerpiece of this repo is a guide for creating/modifying ALC Layout-IDs fo
 
 ## Guides
 
-- [How to create/modify a Layout-ID for AppleALC](https://github.com/5T33Z0/OC-Little-Translated/blob/main/L_ALC_Layout-ID/Create_Layout-ID.md)
-- [AppleALC File Management](https://github.com/5T33Z0/OC-Little-Translated/blob/main/L_ALC_Layout-ID/AppleALC_Settings_Management.md)
-- [Testing Notes Template](https://github.com/5T33Z0/OC-Little-Translated/blob/main/L_ALC_Layout-ID/AppleALC_Settings_Management.md)
-- [Slimming the AppleALC kext](https://github.com/5T33Z0/OC-Little-Translated/blob/main/L_ALC_Layout-ID/Slimming_AppleALC.md)
-- Collected Coded Dumps with Codec Schematics
+- [How to create/modify a Layout-ID for AppleALC](https://github.com/5T33Z0/AppleALC-Guides/tree/main/AppleALC_Layout-ID)
+- [AppleALC File Management](https://github.com/5T33Z0/AppleALC-Guides/tree/main/File_Management)
+- [Testing Notes Template](https://github.com/5T33Z0/AppleALC-Guides/blob/main/AppleALC_Layout-ID/Testing_Notes.md)
+- [Slimming the AppleALC kext](https://github.com/5T33Z0/AppleALC-Guides/tree/main/Slimming_AppleALC)
+- [Collected Coded Dumps with Codec Schematics](https://github.com/5T33Z0/AppleALC-Guides/tree/main/Codec_Dumps)
 
 ## Credits and Resources
 &rarr; see respective sections for details.
