@@ -101,7 +101,7 @@ Users who already have Linux installed can skip to "Dumping the Codec"!
 - Next, install [**graphviz**](https://graphviz.org/) via terminal:
 	- If you are using **MacPorts**, enter `sudo port install graphviz`
 	- If you are using **Homebrew**, enter `brew install graphviz` 
-- Download and unzip [**Codec-Graph.zip**](https://github.com/5T33Z0/OC-Little-Translated/blob/main/L_ALC_Layout-ID/Tools/Codec-Graph.zip?raw=true)
+- Download and unzip [**Codec-Graph.zip**](https://github.com/5T33Z0/AppleALC-Guides/blob/main/AppleALC_Layout-ID/Tools/Codec-Graph.zip?raw=true)
 - Copy the `Codec-Graph` folder to the Desktop
 - Move the `codec_dump.txt` into the "Codec-Graph" folder
 - Download and extract [**PinConfigurator**](https://github.com/headkaze/PinConfigurator/releases)
@@ -410,7 +410,7 @@ Now that we know to enter the routing data into the PlatformsXX.xml file, we can
 There are 2 methods for creating a `PlatformsXX.xml` file: one utilizes VoodooHDA.kext and a forgotten script called `GetDumpXML`. It generates a `Platforms.xml` file, which contains all the required Nodes for switching Inputs/Outputs manually. It works out of the box and allows you to skip Chapter IX completely which is a big time saver. Unfortunately, this method doesn't work beyond macOS Catalina, so users of Big Sur and newer need to follow the manual method instead.
 
 ### Automated method using VoodooHDA and GetDumpXML (macOS ≤ 10.15.7 only)
-- Download [**GetDumpXML.zip**](https://github.com/5T33Z0/OC-Little-Translated/blob/main/L_ALC_Layout-ID/Tools/GetDumpXML.zip?raw=true) and unpack it
+- Download [**GetDumpXML.zip**](https://github.com/5T33Z0/AppleALC-Guides/blob/main/AppleALC_Layout-ID/Tools/GetDumpXML.zip) and unpack it
 - Add VoodooHDA.kext to your EFI's kext folder and config.plist.
 - Disable/delete AppleALC.kext
 - Reboot
