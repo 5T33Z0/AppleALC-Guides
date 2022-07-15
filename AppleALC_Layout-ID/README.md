@@ -107,7 +107,7 @@ Users who already have Linux installed can skip to "Dumping the Codec"!
 - Download and extract [**PinConfigurator**](https://github.com/headkaze/PinConfigurator/releases)
 - Download [**Hackintool**](https://github.com/headkaze/Hackintool). We may need it for Hex to Decimal conversions later.
 - Download and install the [correct version](https://developer.apple.com/support/xcode/) of [**Xcode**](https://developer.apple.com/download/all/?q=xcode) supported by your macOS. The download is about 10 GB and the installed application is about 30 GB, so make sure you have enough disk space. And: make sure to move the app to the "Programs" folder – otherwise compiling fails.
-- Plist Edior like [**ProperTree**](https://github.com/corpnewt/ProperTree) or PlistEditPro (Xcode and [**Viual Studio Code**](https://code.visualstudio.com/) can open plists as well)
+- Plist Editor like [**ProperTree**](https://github.com/corpnewt/ProperTree) or PlistEditPro (Xcode and [**Visual Studio Code**](https://code.visualstudio.com/) can open plists as well)
 
 ### Preparing the AppleALC Source Code
 - Clone, Fork or download (click on "Code" and "Download Zip") the [**AppleALC**](https://github.com/acidanthera/AppleALC) Source Code 
@@ -131,7 +131,7 @@ The resulting folder structure should look like this:</br>![AALC_Dir](https://us
 ### 💡 Tips for editing
 
 - To avoid conflicts with the AppleALC repo when creating a Pull Request, it's best to clone the Repo locally to work on the files before integrating the data into the source code.
-- When integrating data into the source code, make sure to use Visual Studio Code or TextEdit to edit the files – especially when editing the info.plist indside of the PinConfig.kext. I have noticed that PlistEditoPro and even Xcode introduce changes in places you didn't even touch just by opening and saving the file.  I've seen changes in the formatting as well as changes in ConfigData. This will intoduce conflicts in the code when creating the Pull Request and it will be rejected.
+- When integrating data into the source code, make sure to use Visual Studio Code or TextEdit to edit the files – especially when editing the info.plist inside of the PinConfig.kext. I have noticed that PlistEditoPro and even Xcode introduce changes in places you didn't even touch just by opening and saving the file. I've seen changes in the formatting as well as changes in ConfigData. This will introduce conflicts in the code when creating the Pull Request and it will be rejected.
 - Add entries to both info.plists at the end of the corresponding sections to append lines to the source code only and not juggles lines around. The reduces chances of conflicts and makes the reviewing and merging process easier.
 
 ### Configuring Xcode
