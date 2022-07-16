@@ -33,7 +33,7 @@ This guide is for compiling AppleALC for your Codec only. This reduced the kext 
 - Delete all the Dictionaries which do not contain your Layout-ID. There are about 600 Layouts in this Array, so use the search function to find yours and delete the other ones.
 - In my case, I keep 2 Layouts:</br>![08](https://user-images.githubusercontent.com/76865553/174393729-500ddaa2-07e7-40b4-abcb-1b5311cbd5d6.png)
 
-Now you have removed all the unnecessary files from the AppleALC Source Code and can compile the Kext…
+Now that you have removed all the unnecessary files for your Codec from the AppleALC Source Code, you can compile the Kext…
 
 ## Compiling the Kext
 - In Terminal, `cd` into the AppleALC folder (as described previously)
