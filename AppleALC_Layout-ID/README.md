@@ -859,6 +859,7 @@ Once your Layout is approved it will be part of the main AppleALC repo and you c
 	- Daliansky for [AppleALC Guide](https://blog-daliansky-net.translate.goog/Use-AppleALC-sound-card-to-drive-the-correct-posture-of-AppleHDA.html?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=de&_x_tr_pto=wapp)
 	- Applelife.ru for [GetDumpXML-Auto build Platforms.xml](https://applelife-ru.translate.goog/threads/getdumpxml-applehda-zvuk-avtomaticheskoe-postroenie-fajla-platforms-xml.2942828/?_x_tr_sl=ru&_x_tr_tl=en&_x_tr_hl=de&_x_tr_pto=wapp)
 	- Daliansky for [Using VoodooHDA for finding valid Nodes](https://blog-daliansky-net.translate.goog/With-VoodooHDA-comes-getdump-find-valid-nodes-and-paths.html?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=de&_x_tr_pto=wapp)
+	- fewtarius for [Fixing Jack Sense and EAPD](https://gist.github.com/fewtarius/f691d97513c4f7e527cb41f44c069548)
 - **About Intel High Definition Audio**:
 	- Intel for [HDA Specs](https://www.intel.com/content/www/us/en/standards/high-definition-audio-specification.html), esp. Chapter 7: "Codec Features and Requirements".
  	- HaC Mini Hackintosh for additional info about the [HDA Codec and Codec-Graph](https://osy.gitbook.io/hac-mini-guide/details/hda-fix#hda-codec)
