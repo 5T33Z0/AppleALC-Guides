@@ -871,6 +871,7 @@ Once your Layout is approved it will be part of the main AppleALC repo and you c
 	- Core-i99 for the Python 3 Port of [Codec-Graph](https://github.com/Core-i99/Codec-Graph)
 	- Headkaze for [Hackintool](https://github.com/headkaze/Hackintool) and porting [PinConfigurator](https://github.com/headkaze/PinConfigurator) to 64 bit 
 	- Pixelglow for [graphviz](http://www.pixelglow.com/graphviz/)
+	- hackintosh-stuff for [ComboJack](https://github.com/hackintosh-stuff/ComboJack) (fixes issues with ALC255/256)
 - **Other**:
 	- [Mermaid](https://mermaid-js.github.io/mermaid/#/README) script for creating flowcharts and diagrams in Markdown
 	- Core-i99 for PinConfigurator tips
