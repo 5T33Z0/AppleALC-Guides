@@ -7,7 +7,7 @@ You can follow the instructions below if you want to create your own Codec Dumps
 
 ## Dumping the Audio Codec in Linux
 
-### Prepearing a USB flash drive for running Linux from an .iso
+### Preparing a USB flash drive for running Linux from an .iso
 Users who already have Linux installed can skip to "Dumping the Audio Codec"!
 
 1. Use a USB 3.0 flash drive (at least 8 GB or more).

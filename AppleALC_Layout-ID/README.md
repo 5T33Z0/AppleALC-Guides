@@ -1,20 +1,23 @@
 [![macOS](https://img.shields.io/badge/Supported_macOS:-≤13.0_beta-white.svg)](https://www.apple.com/macos/macos-ventura-preview/)
 # How to create/modify a Layout-ID for AppleALC
 
+**TABLE of CONTENTS**
+
 - [I. Summary](#i-summary)
 - [II. Preparations](#ii-preparations)
 - [III. Extracting data from the Codec dump](#iii-extracting-data-from-the-codec-dump)
 - [IV. Understanding the Codec schematic and signal flow](#iv-understanding-the-codec-schematic-and-signal-flow)
 - [V. Creating a PathMap](#v-creating-a-pathmap)
-- [VI. Creating a PlatformsXX.xml](#vi-creating-a-platformsxxxml)
-- [VII. Transferring the PathMap to PlatformsXX.xml](#vii-transferring-the-pathmap-to-platformsxxxml)
-- [VIII. Adding/Modifying layoutXX.xml](#viii-addingmodifying-layoutxxxml)
+- [VI. Creating a `PlatformsXX.xml`](#vi-creating-a-platformsxxxml)
+- [VII. Transferring the PathMap to `PlatformsXX.xml`](#vii-transferring-the-pathmap-to-platformsxxxml)
+- [VIII. Adding/Modifying `layoutXX.xml`](#viii-addingmodifying-layoutxxxml)
 - [IX. Creating a PinConfig](#ix-creating-a-pinconfig)
-- [X. Integrating the PinConfig into the AppleALC source code](#x-integrating-the-pinconfig-into-the-applealc-source-code)
-- [XI. Add Platforms.xml and layout.xml to info.plist](#xi-add-platformsxml-and-layoutxml-to-infoplist)
+- [X. Integrating the `PinConfig` into the AppleALC source code](#x-integrating-the-pinconfig-into-the-applealc-source-code)
+- [XI. Add `Platforms.xml` and `layout.xml` to `info.plist`](#xi-add-platformsxml-and-layoutxml-to-infoplist)
 - [XII. Compiling the AppleALC.kext](#xii-compiling-the-applealckext)
 - [XIII. Testing and Troubleshooting](#xiii-testing-and-troubleshooting)
 - [XIV. Adding your Layout-ID to the AppleALC Repo](#xiv-adding-your-layout-id-to-the-applealc-repo)
+- [Credits and Resources](#credits-and-resources)
 
 ## I. Summary
 ### About
@@ -131,8 +134,8 @@ The resulting folder structure should look like this:</br>![AALC_Dir](https://us
 ### 💡 Tips for editing
 
 - To avoid conflicts with the AppleALC repo when creating a Pull Request, it's best to clone the Repo locally to work on the files before integrating the data into the source code.
-- When integrating data into the source code, make sure to use Visual Studio Code or TextEdit to edit the files – especially when editing the info.plist inside of the PinConfig.kext. I have noticed that PlistEditoPro and even Xcode introduce changes in places you didn't even touch just by opening and saving the file. I've seen changes in the formatting as well as changes in ConfigData. This will introduce conflicts in the code when creating the Pull Request and it will be rejected.
-- Add entries to both info.plists at the end of the corresponding sections to append lines to the source code only and not juggles lines around. The reduces chances of conflicts and makes the reviewing and merging process easier.
+- When integrating data into the source code, make sure to use Visual Studio Code or TextEdit to edit the files – especially when editing the `info.plist` inside `PinConfig.kext`. I have noticed that PlistEditoPro and even Xcode introduce changes in places you didn't even touch just by opening and saving the file. I've seen changes in the formatting as well as changes in ConfigData. This will introduce conflicts in the code when creating the Pull Request and it will be rejected.
+- Add entries to both `info.plists` at the end of the corresponding sections to append lines to the source code only and not juggles lines around. The reduces chances of conflicts and makes the reviewing and merging process easier.
 
 ### Configuring Xcode
 - Start Xcode
@@ -634,9 +637,9 @@ Audio Codecs support various Inputs and Outputs: Internal speakers and a mic (us
 
 If you're interested in the tedious process of extracting verbs from a Codec dump *manually*, please refer to Parts 2 and 3 of [EMlyDinEsH's guide](https://osxlatitude.com/forums/topic/1946-complete-applehda-patching-guide/).
 
-Luckily for us, we can use **PinConfigurator** to extract Verbs from the Codec dump automatically insteas and also apply corrections to them easily.
+Luckily for us, we can use **PinConfigurator** to extract Verbs from the Codec dump automatically and also apply corrections to them easily.
 
-⚠️ Make sure that your `PinConfig` contains ***all*** the Input and Output Nodes (Mixers/Switches are irrelevant) you are referring to in the `PathMap` so the routing is coherent. If you are referencing a node in a path which doesn't exist (in the PinConfig) then there will be no sound for this path. On the other hand, you can have more Nodes in the PinConfig than you are actually assigning in the PathMap – they just won't be available/visible in System Preferences as Input/Output sources.
+⚠️ Ensure that your `PinConfig` contains ***all*** the Input and Output Nodes (Mixers/Switches are irrelevant) you are referring to in the `PathMap` so the routing is coherent. If you are referencing a node in a path which doesn't exist (in the PinConfig) then there will be no sound for this path. On the other hand, you can have more Nodes in the PinConfig than you are actually assigning in the PathMap – they just won't be available/visible in System Preferences as Input/Output sources.
 
 ### Using PinConfigurator to create a PinConfig
 
@@ -653,8 +656,10 @@ Preferred method if you just want to inject the default Input/Output sources int
 8. Copy the `ConfigData` into the clipboard
 9. Select "File > Export > verbs.txt". It will be stored on the Desktop.
 10. Open verbs.txt.
-11. Paste the ConfigDate in an empty line and save the file. We'll need it later.
+11. Paste the `ConfigData` in an empty line and save the file. We'll need it later.
 12. Continue in **Chapter X.**
+
+**NOTE**: If you want to know how decode `ConfigData` to fix issues, have a look at [this](https://gist.github.com/fewtarius/f691d97513c4f7e527cb41f44c069548#a-simple-pincomplex-primer). 
 
 #### Modifying an existing PinConfig (adding Outputs/Inputs)
 In case you already have a somewhat working Layout-ID that you want/need to modify, you can import its PinConfig into PinConfigurator for editing. There are 2 methods to do it:
