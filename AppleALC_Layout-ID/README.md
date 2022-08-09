@@ -136,6 +136,7 @@ The resulting folder structure should look like this:</br>![AALC_Dir](https://us
 - To avoid conflicts with the AppleALC repo when creating a Pull Request, it's best to clone the Repo locally to work on the files before integrating the data into the source code.
 - When integrating data into the source code, make sure to use Visual Studio Code or TextEdit to edit the files – especially when editing the `info.plist` inside `PinConfig.kext`. I have noticed that PlistEditoPro and even Xcode introduce changes in places you didn't even touch just by opening and saving the file. I've seen changes in the formatting as well as changes in ConfigData. This will introduce conflicts in the code when creating the Pull Request and it will be rejected.
 - Add entries to both `info.plists` at the end of the corresponding sections to append lines to the source code only and not juggles lines around. The reduces chances of conflicts and makes the reviewing and merging process easier.
+- Finding "missing" platform.xml files: some Codec folders (e.g. ALC 887 and 17 others) contain less Platforms than layout xml files. If you can't find a Platforms file with the number corresponding to your layout xml, look for `PlatformsID.xml` instead. It can contain lots of pathmaps. Open the layout.xml file and check the `PathMapID`. Take a mental note of it or copy the number to the clipboard. Next, open `PlatformsID.xml` and find the PathMap with the corresponding ID.
 
 ### Configuring Xcode
 - Start Xcode
