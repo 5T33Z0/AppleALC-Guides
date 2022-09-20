@@ -880,6 +880,7 @@ Once your Layout is approved it will be part of the main AppleALC repo and you c
 - **Codec-specific Fixes**:
 	- hackintosh-stuff for [ComboJack](https://github.com/hackintosh-stuff/ComboJack) – Fixes issues with ALC255/256
 	- jief666 for [ALC298 PlugFix](https://github.com/jief666/ALC298PlugFix) – Fixes issues with ALC298
+	- tctien342 for [Combojack for Dell Series](https://github.com/tctien342/ComboJack) – Fixes issues with ALC255/256, ALC295 and ALC298 on Dell Laptops
 - **Other**:
 	- [Mermaid](https://mermaid-js.github.io/mermaid/#/README) script for creating flowcharts and diagrams in Markdown
 	- Core-i99 for PinConfigurator tips
