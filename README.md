@@ -13,7 +13,7 @@ This repository contains guides for working with the AppleALC source code to get
 - [How to create/modify a Layout-ID for AppleALC](https://github.com/5T33Z0/AppleALC-Guides/tree/main/AppleALC_Layout-ID)
 - [AppleALC File Management](https://github.com/5T33Z0/AppleALC-Guides/tree/main/File_Management)
 - [Testing Notes Template](https://github.com/5T33Z0/AppleALC-Guides/blob/main/AppleALC_Layout-ID/Testing_Notes.md)
-- [Slimming the AppleALC kext](https://github.com/5T33Z0/AppleALC-Guides/tree/main/Slimming_AppleALC)
+- [Slimming and compiling the AppleALC kext](https://github.com/5T33Z0/AppleALC-Guides/tree/main/Slimming_AppleALC)
 - [Collected Coded Dumps with Codec Schematics](https://github.com/5T33Z0/AppleALC-Guides/tree/main/Codec_Dumps)
 
 ## Credits and Resources
