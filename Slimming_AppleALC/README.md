@@ -2,13 +2,13 @@
 This guide is for compiling AppleALC for your Codec and the audio layout(s) of your choice only. Thsi reduces the size of the kext from 3.8 MB to about 90 kilobytes!
 
 ## Preparations
-- Download and install the [correct version](https://developer.apple.com/support/xcode/) of [**Xcode**](https://developer.apple.com/download/all/?q=xcode) supported by your macOS. The download is about 10 GB and the installed application is about 30 GB in total, so make sure you have enough disk space. And: make sure to move the app to the "Programs" folder – otherwise compiling fails.
+- Download and install the [correct version](https://developer.apple.com/support/xcode/) of [**Xcode**](https://developer.apple.com/download/all/?q=xcode) supported by your macOS. The download is about 10 GB and the installed application is about 30 GB in total, so make sure you have enough disk space. And: move the app to the "Programs" folder – otherwise compiling fails.
 - Configure Xcode as [described here](https://github.com/5T33Z0/AppleALC-Guides/tree/main/AppleALC_Layout-ID#configuring-xcode)
 - Install a Plist Editor, preferably [ProperTree](https://github.com/corpnewt/ProperTree)
 - Download [AppleALC](https://github.com/acidanthera/AppleALC) Source Code (click on "Code" and "Download Zip") 
 - Unpack the .zip file
-- In Terminal, enter: `cd`, hit space, drag the AppleALC folder into the Terminal window and press enter.
-- Next, enter `git clone https://github.com/acidanthera/MacKernelSDK` and hit enter. This adds the MacKernelSDK in the AppleALC source folder.
+- In Terminal, enter: <kbd>cd</kbd>, hit <kbd>Spacebar</kbd>, drag the AppleALC folder into the Terminal window and press <kbd>Enter</kbd>.
+- Next, enter `git clone https://github.com/acidanthera/MacKernelSDK` and hit <kbd>Enter</kbd>. This downloads the MacKernel SDK to the AppleALC source folder.
 - Add the **Debug** version of [Lilu.kext](https://github.com/acidanthera/Lilu/releases) to the AppleALC folder.
 - The resulting folder structure should look like this:</br>![](https://user-images.githubusercontent.com/76865553/173291777-9bc1285d-1ffa-479f-b7bf-b74cda6f23ae.png)
 
@@ -36,15 +36,15 @@ This guide is for compiling AppleALC for your Codec and the audio layout(s) of y
 Now that you have removed all the unnecessary files for your Codec from the AppleALC Source Code, you can compile the Kext…
 
 ## Compiling the Kext
-- In Terminal, `cd` into the AppleALC folder (as described previously)
-- Type `xcodebuild` and hit Enter
+- In Terminal, <kbd>cd</kbd> into the AppleALC folder (as described previously)
+- Type `xcodebuild` and hit <kbd>Enter</kbd>
 - Wait until compiling finishes
 - You custom AppleALC kext will be present under `AppleALC/build/Release`
 - Add the kext to your `EFI/OC/Kexts` folder, replacing the existing one.
 - Adjust the Layout-ID if necessary
 - Reboot and enjoy your slimmed AppleALC kext.
 
-:warning: **NOTE**: Only the Layout(s) you kept in the Source Code will be available. So if you only kept Layout 17 for example but the Layout-ID in your config.plist is set to anything else than 17 sound won't work.
+:warning: **NOTE**: Only the Layout(s) you kept in the Source Code will be available. So if you only kept Layout 17 for example but the Layout-ID in your config.plist is set to anything else than 17, sound won't work.
 
 ## Credits
 - Apple for [XCode](https://developer.apple.com/xcode/)
