@@ -1,4 +1,4 @@
-[![macOS](https://img.shields.io/badge/Supported_macOS:-≤13.0_beta-white.svg)](https://www.apple.com/macos/macos-ventura-preview/)
+[![macOS](https://img.shields.io/badge/Supported_macOS:-≤13.2_beta-white.svg)](https://www.apple.com/macos/macos-ventura-preview/)
 # How to create/modify a Layout-ID for AppleALC
 
 **TABLE of CONTENTS**
