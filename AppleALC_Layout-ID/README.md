@@ -102,8 +102,8 @@ Users who already have Linux installed can skip to "Dumping the Codec"!
 - Install either [**MacPorts**](https://www.macports.org/install.php) or [**Homebrew**](https://brew.sh/) (may require reboot afterwards)
 - Once that's done, reboot.
 - Next, install [**graphviz**](https://graphviz.org/) via terminal:
-	- If you are using **MacPorts**, enter `sudo port install graphviz`
 	- If you are using **Homebrew**, enter `brew install graphviz` 
+	- If you are using **MacPorts**, enter `sudo port install graphviz`
 - Download and unzip [**Codec-Graph.zip**](https://github.com/5T33Z0/AppleALC-Guides/blob/main/AppleALC_Layout-ID/Tools/Codec-Graph.zip?raw=true)
 - Copy the `Codec-Graph` folder to the Desktop
 - Move the `codec_dump.txt` into the "Codec-Graph" folder
