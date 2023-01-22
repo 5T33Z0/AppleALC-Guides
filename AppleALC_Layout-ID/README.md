@@ -98,27 +98,17 @@ Users who already have Linux installed can skip to "Dumping the Codec"!
 ### Required Tools and Files
 💡Please follow the instructions carefully and thoroughly to avoid issues.
 
-- Install [**Python 3**](https://www.python.org/downloads/) if you haven't already
-- Install either [**MacPorts**](https://www.macports.org/install.php) or [**Homebrew**](https://brew.sh/) (may require reboot afterwards)
-- Once that's done, reboot.
-- Next, install [**graphviz**](https://graphviz.org/) via terminal:
-	- If you are using **Homebrew**, enter `brew install graphviz` 
-	- If you are using **MacPorts**, enter `sudo port install graphviz`
-- Download and unzip [**Codec-Graph.zip**](https://github.com/5T33Z0/AppleALC-Guides/blob/main/AppleALC_Layout-ID/Tools/Codec-Graph.zip?raw=true)
-- Copy the `Codec-Graph` folder to the Desktop
-- Move the `codec_dump.txt` into the "Codec-Graph" folder
+- Follow the [**instructions**](https://github.com/5T33Z0/AppleALC-Guides/blob/main/AppleALC_Layout-ID/CodecGraph_Installation.md) to install Codec-Graph and convert your `codec-dump.txt` to `Codec-Dump.svg`.
 - Download and extract [**PinConfigurator**](https://github.com/headkaze/PinConfigurator/releases)
 - Download [**Hackintool**](https://github.com/headkaze/Hackintool). We may need it for Hex to Decimal conversions later.
-- Download and install the [correct version](https://developer.apple.com/support/xcode/) of [**Xcode**](https://developer.apple.com/download/all/?q=xcode) supported by your macOS. The download is about 10 GB and the installed application is about 30 GB, so make sure you have enough disk space. And: make sure to move the app to the "Programs" folder – otherwise compiling fails.
+- Download and install the [correct version](https://developer.apple.com/support/xcode/) of [**Xcode**](https://developer.apple.com/download/all/?q=xcode) supported by your macOS. The download is about 10 GB and the installed application is about 30 GB, so make sure you have enough disk space. Move the app to the "Programs" folder – otherwise compiling fails.
 - Plist Editor like [**ProperTree**](https://github.com/corpnewt/ProperTree) or PlistEditPro (Xcode and [**Visual Studio Code**](https://code.visualstudio.com/) can open plists as well)
 
 ### Preparing the AppleALC Source Code
 - Clone, Fork or download (click on "Code" and "Download Zip") the [**AppleALC**](https://github.com/acidanthera/AppleALC) Source Code 
 - Download the Debug Version of [**Lilu Kext**](https://github.com/acidanthera/Lilu/releases) and copy it to the "AppleALC" root folder
 - In Terminal, enter: `cd`, hit space and drag and drop your AppleALC folder into the window and press enter.
-- Next, enter `git clone https://github.com/acidanthera/MacKernelSDK` and hit enter. This add the MacKernelSDK in the AppleALC source folder.
-
-The resulting folder structure should look like this:</br>![AALC_Dir](https://user-images.githubusercontent.com/76865553/173291777-9bc1285d-1ffa-479f-b7bf-b74cda6f23ae.png)
+- Next, enter `git clone https://github.com/acidanthera/MacKernelSDK` and hit enter. This add the MacKernelSDK in the AppleALC source folder. The resulting folder structure should look like this:</br>![AALC_Dir](https://user-images.githubusercontent.com/76865553/173291777-9bc1285d-1ffa-479f-b7bf-b74cda6f23ae.png)
 
 #### Files we have to work on
 
@@ -153,19 +143,12 @@ Now, that we've got the prep work out of the way, we can begin!
 ## III. Extracting data from the Codec dump
 In order to route audio inputs and outputs for macOS, we need to analyze and work with data inside the Codec dump. To make the data easier to work with, we will use codec-graph to generate a schematic of the audio codec which makes routing audio much easier than working solely with the text file.
 
-### Converting the Codec Dump 
-1. Enter the Codec-Graph folder
-2. Double-click `Convert_Dump`. 
-3. This will start Codec-Graph (and perform an additional hex to decimal conversion)
-4. Follow the on-screen instructions to convert the Codec dump
-5. This creates 3 new files inside the "output" folder:
-	- **`codec_dump_dec.txt`** &rarr; Codec dump converted from Hex to Decimal. We need it since the data has to be entered in decimals in AppleAlC's .xml files.
-	- **`codecdump.svg`** – Schematic of the Codec.
-	- **`codecdumpdec.svg`** &rarr; Schematic of the Codec converted from hex to decimal. We will work with this primarily. You can open it in the web browser to view it in full size.
-6. Next, run PinConfigurator
-7. Select "File > Open…" (⌘+O) and open "codec_dump.txt"
-8. This will extract the available audio sources from the Codec dump
-9. Select File > Export > **`verbs.txt`**. It will will be stored on the Desktop automatically. We may need it later.
+### Converting the Codec Dump
+- Follow the [**instructions**](https://github.com/5T33Z0/AppleALC-Guides/blob/main/AppleALC_Layout-ID/CodecGraph_Installation.md) to install Codec-Graph and convert your `codec-dump.txt` to `Codec-Dump.svg`.
+- Next, run **PinConfigurator**
+- Select "File > Open…" (⌘+O) and open "codec_dump.txt"
+- This will extract the available audio sources from the Codec dump
+- Select File > Export > **`verbs.txt`**. It will will be stored on the Desktop automatically. We may need it later.
 
 ### Relevant Codec data
 Amongst other things, the Codec dump text contains the following details:
