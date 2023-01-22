@@ -30,3 +30,4 @@ Download and Install [**Python 3**](https://www.python.org/downloads/)
 - Click on "Select Codec Dump"
 - Navigate to the `codec_dump.txt` and open it
 - Codec Graph will generate `Codec-Dump.svg` and place it on the Desktop.
+- Continue with the [guide](https://github.com/5T33Z0/AppleALC-Guides/blob/main/AppleALC_Layout-ID/README.md#converting-the-codec-dump)
