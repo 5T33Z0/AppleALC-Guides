@@ -19,7 +19,7 @@ Codec-Graph is a tool which visualizes the data contained in the `codec_dump.txt
 - Once that's done you can now use CodecGraph
 
 ### 3. Install Python 3
-Download and Install [**Python**](https://www.python.org/downloads/) 
+Download and Install [**Python 3**](https://www.python.org/downloads/) 
 
 ### 4. Download Codec-Graph
 - Visit Core-99's [**Codec-Graph**](https://github.com/Core-i99/Codec-Graph) repo
