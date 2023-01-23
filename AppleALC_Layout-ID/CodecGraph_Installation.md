@@ -12,8 +12,6 @@ Codec-Graph is a tool which visualizes the data contained in the `codec_dump.txt
 - Enter your Admin password when asked to begin the installation
 - Once the Homebew installation is complete, you can install Graphwiz
 
-**NOTE**: On macOS Catalina or older, you don't have to install Homebrew to get Graphwiz. You can use the [**.pkg installer**](https://github.com/5T33Z0/AppleALC-Guides/blob/main/AppleALC_Layout-ID/Tools/graphviz-2.40.1.pkg?raw=true) instead!
-
 ### 2. Install Graphwiz
 - Enter `brew install graphviz` command in Terminal and hit <kbd>Enter</kbd>
 - Once that's done you can now use CodecGraph
