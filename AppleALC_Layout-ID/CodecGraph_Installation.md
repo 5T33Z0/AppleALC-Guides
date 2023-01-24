@@ -8,7 +8,7 @@ Codec-Graph is a tool which visualizes the data contained in the `codec_dump.txt
 ### 1. Install MacPorts or Homebrew
 Install either 
 
-- [**MacPorts**](https://www.macports.org/install.php) or 
+- [**MacPorts**](https://www.macports.org/install.php) (macOS Package Installer) or 
 - [**Homebrew**](https://brew.sh/)
 
 For me, MacPorts worked much better than Homebrew, which gave me a lot of errors.
