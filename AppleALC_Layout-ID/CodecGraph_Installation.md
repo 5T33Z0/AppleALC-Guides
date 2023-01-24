@@ -5,19 +5,23 @@ Codec-Graph is a tool which visualizes the data contained in the `codec_dump.txt
 
 ## Instructions
 
-### 1. Install Homebrew
-- Go to https://brew.sh/
-- Copy the command listed on the homepage to the clipboard
-- Run Terminal, paste the command inand hit <kbd>Enter</kbd>
-- Enter your Admin password when asked to begin the installation
-- Once the Homebew installation is complete, you can install Graphwiz
+### 1. Install MacPorts or Homebrew
+Install either 
 
-### 2. Install Graphwiz
-- Enter `brew install graphviz` command in Terminal and hit <kbd>Enter</kbd>
-- Once that's done you can now use CodecGraph
+- [**MacPorts**](https://www.macports.org/install.php) or 
+- [**Homebrew**](https://brew.sh/)
 
-### 3. Install Python 3
-Download and Install [**Python 3**](https://www.python.org/downloads/) 
+For me, MacPorts worked much better than Homebrew, which gave me a lot of errors.
+
+### 2. Install graphviz
+Next, install [**graphviz**](https://graphviz.org/).
+
+- Open Terminal and enter one of the following commands:
+	- If you are using **MacPorts**, enter `sudo port install graphviz`
+	- If you are using **Homebrew**, enter `brew install graphviz` 
+
+### 3. Install Python 3 (optional)
+MacPorts/Homebrew should have installed Python 3 already since it's a dependency for graphviz. But just to make sure, double-check the installation log to verify. If it's installed already, skip to step 4, it it isnt, download and Install [**Python 3**](https://www.python.org/downloads/) yourself.
 
 ### 4. Download Codec-Graph
 - Visit Core-99's [**Codec-Graph**](https://github.com/Core-i99/Codec-Graph) repo
