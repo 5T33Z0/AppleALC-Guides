@@ -1,5 +1,5 @@
 # Getting Codec-Graph to work
-Codec-Graph is a tool which visualizes the data contained in the `codec_dump.txt` obtained from Linux. It creates a map of an audio CODEC's routing. Core-i99 has released an updated and improved version of Codec-Graph which includes a GUI to simplify the file conversion. The generated visualization now includes both hexadecimal as well as decimal values:
+Core-i99 has released an updated and improved version of Codec-Graph for Python 3 which includes a GUI to simplify the file conversion. Codec-Graph is a tool for visualizing the data contained within the `codec_dump.txt` obtained from Linux. It utilizes graphviz to generate a schematic of an audio CODEC's routing. The generated .svg now includes both hexadecimal as well as decimal values:
 
 ![Codec-Dump](https://user-images.githubusercontent.com/76865553/213944003-89744984-4df5-473c-8ae5-1b4d948a7d38.svg)
 
