@@ -3,7 +3,7 @@ Codec-Graph is a tool which visualizes the data contained in the `codec_dump.txt
 
 ![Codec-Dump](https://user-images.githubusercontent.com/76865553/213944003-89744984-4df5-473c-8ae5-1b4d948a7d38.svg)
 
-## Instructions
+## Instructions (macOS)
 
 ### 1. Install MacPorts or Homebrew
 Install either 
@@ -21,13 +21,12 @@ Next, install [**graphviz**](https://graphviz.org/).
 	- If you are using **Homebrew**, enter `brew install graphviz` 
 
 ### 3. Install Python 3 (optional)
-MacPorts/Homebrew should have installed Python 3 already since it's a dependency for graphviz. But just to make sure, double-check the installation log to verify. If it's installed already, skip to step 4, it it isnt, download and Install [**Python 3**](https://www.python.org/downloads/) yourself.
+MacPorts/Homebrew should have installed Python 3 already since it's a dependency for graphviz. But just to make sure, sift through the installation log to verify. If it's installed already, skip to step 4, if it isnt, download and Install [**Python 3**](https://www.python.org/downloads/) yourself.
 
 ### 4. Download Codec-Graph
-- Visit Core-99's [**Codec-Graph**](https://github.com/Core-i99/Codec-Graph) repo
-- Click on "Code" > "Download zip" and unpack it
+- Dowload the latest release of [**Codec-Graph**](https://github.com/Core-i99/Codec-Graph/releases) and unzip it
 - Open Terminal 
-- Enter: `python3 ~/Downloads/Codec-Graph/Codec-Graph.py`
+- Enter: `python3 ~/Downloads/Codec-Graph-Release/Codec-Graph.py`
 - This will open the GUI:</br> ![CGGUI](https://user-images.githubusercontent.com/76865553/213944025-ee8a9f97-e560-47fa-87c4-871324a6d40b.png)
 - Click on "Select Codec Dump"
 - Navigate to the `codec_dump.txt` and open it
