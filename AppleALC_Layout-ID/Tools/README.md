@@ -1,6 +1,6 @@
 # Instructions
 
-This is the old workflow for converting Codec Dumps. The new one can be found here
+This is the old workflow for converting Codec Dumps to .svg. The new and improved workflow can be found [**here**](https://github.com/5T33Z0/AppleALC-Guides/blob/main/AppleALC_Layout-ID/CodecGraph_Installation.md).
 
 ## Install graphviz
 
