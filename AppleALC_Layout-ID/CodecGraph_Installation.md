@@ -30,5 +30,5 @@ MacPorts/Homebrew should have installed Python 3 already since it's a dependency
 - This will open the GUI:</br> ![CGGUI](https://user-images.githubusercontent.com/76865553/213944025-ee8a9f97-e560-47fa-87c4-871324a6d40b.png)
 - Click on "Select Codec Dump"
 - Navigate to the `codec_dump.txt` and open it
-- Codec Graph will generate `Codec-Dump.svg` and place it on the Desktop.
+- Codec Graph will generate a svg file and ask the user where to save it.
 - Continue with the [guide](https://github.com/5T33Z0/AppleALC-Guides/blob/main/AppleALC_Layout-ID/README.md#converting-the-codec-dump)
