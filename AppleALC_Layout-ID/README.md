@@ -843,10 +843,10 @@ Once your Layout is approved it will be part of the main AppleALC repo and you c
 	- MacPeet for [Anleitung patch AppleHDA](https://www.root86.com/blog/40/entry-51-guide-anleitung-patch-applehda-bedingt-auch-f%C3%BCr-codec-erstellung-in-applealc/) (German)
 	- EMlyDinEsH for [Complete Apple HDA Patching Guide](https://osxlatitude.com/forums/topic/1946-complete-applehda-patching-guide/)
 	- F0x1c for [AppleALC_Instructions](https://github.com/F0x1c/AppleALC_Instructions)
-	- The King for [[HOW TO] Patch AppleHDA - Knowledge Base, Guide for how to fix/use original AppleHDA](http://web.archive.org/web/20150105004602/http://www.projectosx.com/forum/index.php?showtopic=465&st=0)
+	- The King for [[How To] Patch AppleHDA - Knowledge Base, Guide for how to fix/use original AppleHDA](http://web.archive.org/web/20150105004602/http://www.projectosx.com/forum/index.php?showtopic=465&st=0)
 	- Master Chief for [[How To] PinConfig for Linux users](https://www.insanelymac.com/forum/topic/149128-how-to-pinconfig-for-linux-users-%EF%BF%BD-realtek-alc883-example/)
 	- Daliansky for [AppleALC Guide](https://blog-daliansky-net.translate.goog/Use-AppleALC-sound-card-to-drive-the-correct-posture-of-AppleHDA.html?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=de&_x_tr_pto=wapp)
-	- Applelife.ru for [GetDumpXML-Auto build Platforms.xml](https://applelife-ru.translate.goog/threads/getdumpxml-applehda-zvuk-avtomaticheskoe-postroenie-fajla-platforms-xml.2942828/?_x_tr_sl=ru&_x_tr_tl=en&_x_tr_hl=de&_x_tr_pto=wapp)
+	- Applelife.ru for [GetDumpXML – Auto-build Platforms.xml](https://applelife-ru.translate.goog/threads/getdumpxml-applehda-zvuk-avtomaticheskoe-postroenie-fajla-platforms-xml.2942828/?_x_tr_sl=ru&_x_tr_tl=en&_x_tr_hl=de&_x_tr_pto=wapp)
 	- Daliansky for [Using VoodooHDA for finding valid Nodes](https://blog-daliansky-net.translate.goog/With-VoodooHDA-comes-getdump-find-valid-nodes-and-paths.html?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=de&_x_tr_pto=wapp)
 	- fewtarius for [Fixing Jack Sense and EAPD](https://gist.github.com/fewtarius/f691d97513c4f7e527cb41f44c069548)
 - **About Intel High Definition Audio**:
