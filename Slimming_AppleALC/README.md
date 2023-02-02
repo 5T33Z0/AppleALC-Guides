@@ -46,7 +46,8 @@ Now that you have removed all the unnecessary files for your Codec from the Appl
 
 :warning: **NOTE**: Only the Layout(s) you kept in the Source Code will be available. So if you only kept Layout 17 for example but the Layout-ID in your config.plist is set to anything else than 17, sound won't work.
 
-## Credits
+## Credits and further resources
 - Apple for [XCode](https://developer.apple.com/xcode/)
 - Acidanthera for [AppleALC](https://github.com/acidanthera/AppleALC), [Lilu](https://github.com/acidanthera/Lilu) and [MacKernelSDK](https://github.com/acidanthera/MacKernelSDK)
 - Corpnewt for [ProperTree](https://github.com/corpnewt/ProperTree)
+- Reduce Xcode to about a fifth of its regular size by [deleting unused platforms](https://github.com/5T33Z0/AppleALC-Guides/blob/main/Slimming_AppleALC/Slimming_Xcode_for_Kexts.md#readme)
