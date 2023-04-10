@@ -21,4 +21,6 @@
 	- `AudioDXE.efi` Driver
 17. Save your `config.plist`.
 
+**NOTE**: If your system supports digital audio via DisplayPort or HDMI, there might be more than one Codec dump. Usually, `Codec0.txt` is the one from your audio Codec while additional .txt files are dumps from audio codecs on graphics cards (integrated and/or external). If you are uncertain, open the file. The description of which Codec it is from is listed on top right after the device path.
+
 Continue with step [III of the guide](https://github.com/5T33Z0/AppleALC-Guides/tree/main/AppleALC_Layout-ID#iii-extracting-data-from-the-codec-dump)
