@@ -1,4 +1,4 @@
-[![macOS](https://img.shields.io/badge/Supported_macOS:-≤13.2_beta-white.svg)](https://www.apple.com/macos/macos-ventura-preview/)
+[![macOS](https://img.shields.io/badge/Supported_macOS:-≤13.4_beta-white.svg)](https://www.apple.com/macos/macos-ventura-preview/)
 # How to create/modify a Layout-ID for AppleALC
 
 **TABLE of CONTENTS**
@@ -62,19 +62,22 @@ But once you are on the other end, trying to actually *create* your own ALC Layo
 Creating a Layout-ID for AppleALC is one of the more challenging tasks for "regular" hackintosh users who are not programmers (me included). It's not only challenging and time consuming, it's also confusing and requires a lot of tools and prep work. So let's get it out the way right away.
 
 ### Obtaining an Audio CODEC dump in Linux
-Unfortunately, Codec dumps obtained with Clover/OpenCore can't be processed by the tools required to convert and visualize the data inside of them. Codec dumps created in Linux, however, can be processed by these tools just fine.[^1]
+Unfortunately, Codec dumps obtained with Clover or OpenCore can't be processed by Codec Graph, the main tool for visualizing the data inside of them to create a map of an audio codec's routing. [**Core-i99**](https://github.com/Core-i99/Codec-Graph/) is working on a solution to make dumps obtained with OpenCore processable by Codec Graph. Until that's done, we still rely on Codec dumps created by Linux, which can be processed without issues.[^1]
 
 Therefore, we need to use (a live version of) Linux to create the codec dump without having to actually install Linux. We can use Ventoy for this. It prepares a USB flash drive which can run almost any ISO directly without having to create a USB installer.
 
-**NOTES**: If you can live without a schematic of the Codec dump, you *can* use the dumps created with Clover and OpenCore as well.
+**NOTES**: If you can live without a schematic of the Codec, you *can* use the dumps created with Clover and OpenCore as well by following the instructions below.
 
-- **Clover**: Hit "F8" in the boot menu. `AudioDxe.efi` has to be present in `CLOVER/drivers/UEFI`. The file(s) will be stored in `EFI/CLOVER/misc`.
-- **OpenCore**: Requires the Debug version. Check the [Debugging Section](https://github.com/5T33Z0/OC-Little-Translated/tree/main/K_Debugging#using-opencores-sysreport-feature) for details.
+- **Clover**: 
+	- Hit "F8" in the boot menu. 
+	- `AudioDxe.efi` has to be present in `CLOVER/drivers/UEFI`. 
+	- The file(s) will be stored in `EFI/CLOVER/misc`.
+- **OpenCore**: [**Follow the instructions**](https://github.com/5T33Z0/AppleALC-Guides/blob/main/AppleALC_Layout-ID/Dumping_Audio_Codec_OpenCore.md)
 
 [^1]: When I compared the dumps obtained with Clover and Linux, I noticed that the one created in Linux contained almost twice the data (293 vs 172 lines). I guess this is because Linux dynamically discovers the paths of an audio codec through a graph traversal algorithm. And in cases where the algorithm fails, it uses a huge lookup table of patches specific to each Codec. My guess is that this additional data is captured in the Codec dump as well.
 
 #### Preparing a USB flash drive for running Linux from an ISO
-Users who already have Linux installed can skip to "Dumping the Codec"!
+Users who already have Linux installed can skip to [Dumping the Codec](#dumping-the-codec)!
 
 1. Use a USB 3.0 flash drive (at least 8 GB or more).
 2. In Windows, download [**Ventoy**](https://www.ventoy.net/en/download.html) and follow the [Instructions](https://www.ventoy.net/en/doc_start.html) to prepare the flash drive. 
