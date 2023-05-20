@@ -1,5 +1,5 @@
 # Slimming AppleALC Kext
-This guide is for compiling AppleALC for your Codec and the audio layout(s) of your choice only. Thsi reduces the size of the kext from 3.8 MB to about 90 kilobytes!
+This guide is for compiling AppleALC for your Codec and the audio layout(s) of your choice only. This reduces the size of the kext from 3.8 MB to about 90 KB! That's a reduction of over 97 %!
 
 ## Preparations
 - Download and install the [correct version](https://developer.apple.com/support/xcode/) of [**Xcode**](https://developer.apple.com/download/all/?q=xcode) supported by your macOS. The download is about 10 GB and the installed application is about 30 GB in total, so make sure you have enough disk space. And: move the app to the "Programs" folder – otherwise compiling fails.
