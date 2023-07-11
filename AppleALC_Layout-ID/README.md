@@ -49,9 +49,7 @@ My guide is an adaptation of MacPeet's work but updates and enhances it, where p
 So all in all, there is a justification for having new guide for this to enable and empower users to create their own ALC Layout-IDs if they have to.</details>
 
 ### Are you *sure*, you want to do this?
-From a user's perspective, making audio work in hackintosh is a no-brainer: add AppleALC to the kext folder of your Boot Manager, enter the correct ALC Layout-ID to the config and reboot. And voilà: Sound! 
-
-But once you are on the other end, trying to actually *create* your own ALC Layout-ID this becomes a completely different story quickly and it's almost a give that your Layout-ID won't work at all the first time around. So, are you still sure you *want* to do this?
+From a user's perspective, making audio work in hackintosh is a no-brainer: add AppleALC to the kext folder of your Boot Manager, enter the correct ALC Layout-ID to the config and reboot. And voilà: Sound! But once you are on the other end, trying to actually *create* your own ALC Layout-ID it becomes a completely different story. Creating Audio Layouts for AppleALC is by far the most tedious, complex and frustrating undertaking in all of Hackintoshland and it's almost a given that your Layout-ID won't work the first time around – Kernel Panics included. So, are you sure you still *want* to do this?
 
 ### 💡 Tips
 
