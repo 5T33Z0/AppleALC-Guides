@@ -7,16 +7,18 @@ If you install Xcode on a Hackintosh it's usually for compiling Kexts. Unfortuna
 1. Quit Xcode if it is running 
 2. Right-click on the Xcode app and select "Show Package Contents"
 3. Navigate to Contents/Developer/Platforms:</br>![xcode_dev](https://user-images.githubusercontent.com/76865553/216172977-6bb0b379-1254-40ce-80f9-76e42d10522e.png)
-4. Delete the following folders:
+4. Delete the following folders (if present):
 	- AppleTVOS.platform
 	- AppleTVSimulator.platform
 	- iPhoneOS.platform
 	- iPhoneSimulator.platform
 	- WatchOS.platform.platform
 	- WatchSimulator.platform
+ 	- XROS.platform
+  	- XRSimulator.platform  
 5. Empty the trash bin
 
-Once I removed the unnecessary platforms the Xcode.app was only about 5 GB.
+Once I removed the unnecessary platforms the Xcode.app was only about 5 GB (Xcode 15 is about 12 GB)
 
 **Before**:</br>![before](https://user-images.githubusercontent.com/76865553/216173933-43d9bf47-2238-4218-8261-9de8bc6ad8d6.png)
 
