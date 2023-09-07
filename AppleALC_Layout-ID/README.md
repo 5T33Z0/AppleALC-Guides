@@ -719,9 +719,11 @@ Parameter        | Description
 **Position** | = **Sequence**. Indicates the **order** of the jacks in the association group. The lowest numbered jack in the association group should be assigned the lowest numbered channels in the stream, etc. The numbers need not be sequential within the group, only the order matters. Sequence numbers within a set of Default Associations must be unique.
 **EAPD** | = **EAPD/BTL Enable, L/R Swap**. Controls the EAPD pin and configures Pin Widgets into balanced output mode, when these features are supported. It also configures any widget to swap L and R channels when this feature is supported. Check if the Node supports EAPD and adjust the setting accordingly. Read chapter 7.3.3.16 of the HDA Specs for more details.
 
-#### Example: Final PinConfig for ALC269 for Lenovo T530 with Docking station 4337 an 4338
+#### Example: PinConfig for using the Audio Jacks of Docking Station 4337/4338 with a Lenovo T530 Laptop (ALC 269)
 
 ![PCfgFnl01](https://user-images.githubusercontent.com/76865553/173185501-f06f390b-819b-4859-9796-6cbac3487618.png)
+
+**NOTE**: Ignore NID 24, it's unused.
 
 ## X. Integrating the `PinConfig` into the AppleALC source code
 Now that we (finally) have our `PinConfig`, we have to integrate it into the AppleALC source code. Depending on your use case, the workflow differs. So pick a scenario which best suits your use case.
