@@ -32,7 +32,7 @@ This is my attempt to provide an up-to-date guide for creating/modifying Layout-
 - Adding the newly created Layout-ID to the AppleALC repo
 
 ### Who this guide is for
-This guide is aimed at users who want to create a new or modify an existing Layout-ID for different reasons. Maybe the one in use was created for the same Codec but a different system/mainboard and causes issues or they want to add inputs or outputs missing from the current Layout-ID in use.
+This guide is for advanced users who want to create a new Layout-ID (based on an existing one) for their Audio Codec for different reasons. Maybe the one in use was created for a different system/mainboard and causes issues or they want to add inputs and outputs missing from the current Layout-ID in use. This is usually the case when using Laptops with an additional Docking Stations where the Audio Jacks of the dock are not included in the Layout-ID so they won't work in macOS out of the box.
 
 <details>
 <summary><strong>Why another guide?</strong> (click to reveal)</summary>
