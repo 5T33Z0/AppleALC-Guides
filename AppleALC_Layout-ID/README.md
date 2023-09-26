@@ -102,7 +102,7 @@ Users who already have Linux installed can skip to [Dumping the Codec](#dumping-
 - Follow the [**instructions**](https://github.com/5T33Z0/AppleALC-Guides/blob/main/AppleALC_Layout-ID/CodecGraph_Installation.md) to install Codec-Graph and convert your `codec-dump.txt` to `Codec-Dump.svg`.
 - Download and extract [**PinConfigurator**](https://github.com/headkaze/PinConfigurator/releases)
 - Download [**Hackintool**](https://github.com/headkaze/Hackintool). We may need it for Hex to Decimal conversions later.
-- Download and install the [correct version](https://developer.apple.com/support/xcode/) of [**Xcode**](https://developer.apple.com/download/all/?q=xcode) supported by your macOS. The download is about 10 GB and the installed application is about 30 GB, so make sure you have enough disk space. Move the app to the "Programs" folder – otherwise compiling fails.
+- Download and install the correct version of [**Xcode**](https://xcodereleases.com/?scope=release) for your system. The download is about 10 GB and the installed application is about 30 GB, so make sure you have enough disk space. Move the app to the "Programs" folder – otherwise compiling fails.
 - Plist Editor like [**ProperTree**](https://github.com/corpnewt/ProperTree) or PlistEditPro (Xcode and [**Visual Studio Code**](https://code.visualstudio.com/) can open plists as well)
 
 ### Preparing the AppleALC Source Code
