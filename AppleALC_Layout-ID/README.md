@@ -1,4 +1,4 @@
-[![macOS](https://img.shields.io/badge/Supported_macOS:-≤13.4_beta-white.svg)](https://www.apple.com/macos/macos-ventura-preview/)
+[![macOS](https://img.shields.io/badge/Supported_macOS:-≤14.3_beta-white.svg)](https://www.apple.com/macos/macos-ventura-preview/)
 # How to create/modify a Layout-ID for AppleALC
 
 **TABLE of CONTENTS**
@@ -52,7 +52,6 @@ So all in all, there is a justification for having new guide for this to enable 
 From a user's perspective, making audio work in hackintosh is a no-brainer: add AppleALC to the kext folder of your Boot Manager, enter the correct ALC Layout-ID to the config and reboot. And voilà: Sound! But once you are on the other end, trying to actually *create* your own ALC Layout-ID it becomes a completely different story. Creating Audio Layouts for AppleALC is by far the most tedious, complex and frustrating undertaking in all of Hackintoshland and it's almost a given that your Layout-ID won't work the first time around – Kernel Panics included. So, are you sure you still *want* to do this?
 
 ### 💡 Tips
-
 - Click on the little Header icon next to `README.md` to navigate in the document quickly
 - [Backup files you change](https://github.com/5T33Z0/AppleALC-Guides/tree/main/File_Management) in the Source Code and document configuration changed! Otherwise you will completely lose track of PinConfig and PathMap combinations you have tried already! I prepared a [table for taking notes](https://github.com/5T33Z0/AppleALC-Guides/blob/main/AppleALC_Layout-ID/Testing_Notes.md) which might help. You can open it in a Markdown Editor such as Macdown or use Visual Studio Code.
 
@@ -64,17 +63,9 @@ Unfortunately, Codec dumps obtained with Clover or OpenCore can't be processed b
 
 Therefore, we need to use (a live version of) Linux to create the codec dump without having to actually install Linux. We can use Ventoy for this. It prepares a USB flash drive which can run almost any ISO directly without having to create a USB installer.
 
-**NOTES**: If you can live without a schematic of the Codec, you *can* use the dumps created with Clover and OpenCore as well by following the instructions below.
+But before you dump the audio CODEC, verify that audio is working in Linus by playing back a YouTube video or something else that produces sound. You can check [here](https://linux-hardware.org/) whether other users have been able to get audio working under Linux on their system ([create a probe]([https://linux-hardware.org/?view=howto](https://linux-hardware.org/?view=howto)) to ensure your system matches the one in the database).
 
-- **Clover**: 
-	- Hit "F8" in the boot menu. 
-	- `AudioDxe.efi` has to be present in `CLOVER/drivers/UEFI`. 
-	- The file(s) will be stored in `EFI/CLOVER/misc`.
-- **OpenCore**: [**Follow the instructions**](https://github.com/5T33Z0/AppleALC-Guides/blob/main/AppleALC_Layout-ID/Dumping_Audio_Codec_OpenCore.md)
-
-[^1]: When I compared the dumps obtained with Clover and Linux, I noticed that the one created in Linux contained almost twice the data (293 vs 172 lines). I guess this is because Linux dynamically discovers the paths of an audio codec through a graph traversal algorithm. And in cases where the algorithm fails, it uses a huge lookup table of patches specific to each Codec. My guess is that this additional data is captured in the Codec dump as well.
-
-#### Preparing a USB flash drive for running Linux from an ISO
+#### Preparing a USB flash drive for running Linux live from an ISO
 Users who already have Linux installed can skip to [Dumping the Codec](#dumping-the-codec)!
 
 1. Use a USB 3.0 flash drive (at least 8 GB or more).
@@ -94,7 +85,18 @@ Users who already have Linux installed can skip to [Dumping the Codec](#dumping-
 2. Store the generated `CodecDump.zip` on a medium which you can access later from within macOS (HDD, other USB stick, E-Mail, Cloud). You cannot store it on the Ventoy drive itself, since it's formatted in ExFat and can't be accessed by Linux without installing additional utilities.
 3. Reboot into macOS.
 4. Extract `CodecDump.zip` to the Desktop. It contains a folder with one or more .txt files. We are only interested in `card1-codec#0.txt`, additional dumps are usually from HDMI audio devices of GPUs.
-5. ⚠️ Rename `card0-codec#0.txt` to `codec_dump.txt`. Otherwise the script we will use later to convert it will fail. 
+5. ⚠️ Rename `card0-codec#0.txt` to `codec_dump.txt`. Otherwise the script we will use later to convert it will fail.
+
+#### Working with Codec dumps obtained with Clover or OpenCore 
+If you can live without a schematic of the Codec, you *can* use the dumps created with Clover and OpenCore as well by following the instructions below.
+
+- **Clover**: 
+	- Hit "F8" in the boot menu. 
+	- `AudioDxe.efi` has to be present in `CLOVER/drivers/UEFI`. 
+	- The file(s) will be stored in `EFI/CLOVER/misc`.
+- **OpenCore**: [**Follow the instructions**](https://github.com/5T33Z0/AppleALC-Guides/blob/main/AppleALC_Layout-ID/Dumping_Audio_Codec_OpenCore.md)
+
+[^1]: When I compared the dumps obtained with Clover and Linux, I noticed that the one created in Linux contained almost twice the data (293 vs 172 lines). I guess this is because Linux dynamically discovers the paths of an audio codec through a graph traversal algorithm. And in cases where the algorithm fails, it uses a huge lookup table of patches specific to each Codec. My guess is that this additional data is captured by the Codec dump as well.
 
 ### Required Tools and Files
 💡Please follow the instructions carefully and thoroughly to avoid issues.
