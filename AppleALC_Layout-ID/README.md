@@ -24,10 +24,10 @@ This is my attempt to provide an up-to-date guide for creating/modifying Layout-
 
 - Installing and configuring the necessary tools
 - Creating a Codec dump in Linux
-- Converting the Data
-- Creating a PinConfig, Layout.xml and Platforms.xml files
+- Converting the Data to visualize it
+- Creating a `PinConfig`, `Layout.xml` and `Platforms.xml` files
 - Integrating the data into the AppleALC Source Code 
-- Compiling a AppleALC.kext
+- Compiling the `AppleALC.kext`
 - Adding the newly created Layout-ID to the AppleALC repo
 
 ### Who this guide is for
