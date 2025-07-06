@@ -119,7 +119,7 @@ If you can live without a schematic of the Codec, you *can* use the dumps create
 `info.plist`      |AppleALC/Resources/PinConfigs.kext/Contents/Info.plists |PinConfig
 `PlatformsXX.xml` |AppleALC/Resources/subfolder for your Codec | PathMap
 `layoutXX.xml`    |AppleALC/Resources/subfolder for your Codec | Layout-ID and others
-`info.plist`      |AppleALC/Resources/subfolder for your Codec | PlatformsXX.xml.zlib </br> layoutXX.xml.zlib 
+`info.plist`      |AppleALC/Resources/subfolder for your Codec | PlatformsXX.xml </br> layoutXX.xml
 
 `XX` = Number of the chosen Layout-ID.
 
