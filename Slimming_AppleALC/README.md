@@ -30,7 +30,7 @@ This guide is for compiling AppleALC for your Codec and the audio layout(s) of y
 - Right-click the `PinConfig.kext` and select "Show Package Contents":</br>![06](https://user-images.githubusercontent.com/76865553/174393581-d361874f-4539-4407-b208-5eb505ee2d66.png)
 - Open the info.plist with a Plist Editor
 - Navigate to `IOKitPersonalities/as.vit.9696.AppleALC/HDAConfigDefault`:</br>![07](https://user-images.githubusercontent.com/76865553/174393627-6784074e-94fd-4cc7-aabc-6a18bb5bc4e8.png)
-- Delete all the Dictionaries which do not contain your Layout-ID. There are about 600 Layouts in this Array, so use the search function to find yours and delete the other ones.
+- Delete all the Dictionaries which do not contain your Layout-ID. Currently, this Array contains over 640 Layouts, so use the search function to find yours and delete the other ones.
 - In my case, I keep 2 Layouts:</br>![08](https://user-images.githubusercontent.com/76865553/174393729-500ddaa2-07e7-40b4-abcb-1b5311cbd5d6.png)
 
 Now that you have removed all the unnecessary files for your Codec from the AppleALC Source Code, you can compile the Kext…
