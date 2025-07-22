@@ -5,7 +5,7 @@ This guide explains how to use `alc-verb`, a command-line tool included with **A
 ## Prerequisites
 
 1. **AppleALC and Lilu Installed**:
-   - Ensure **AppleALC.kext** and **Lilu.kext** are installed in your EFI partition’s kexts folder or `/Library/Extensions`.
+   - Ensure **AppleALC.kext** and **Lilu.kext** are installed in your EFI/OC/Kexts partition’s kexts folder and are present and enabled in `config.plist`
    - Verify they are loaded by checking OpenCore logs:
      ```bash
      log show --predicate 'process == "kernel" AND (eventMessage CONTAINS "AppleALC" OR eventMessage CONTAINS "Lilu")' --style syslog --source
