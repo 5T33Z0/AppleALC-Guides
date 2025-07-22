@@ -1,4 +1,4 @@
-![macOS](https://img.shields.io/badge/Supported_macOS:-≤14.3_beta-gree.svg) ![Last Update](https://img.shields.io/badge/Last_Update_(yy/mm/dd):-23.12.17-blueviolet.svg)
+![macOS](https://img.shields.io/badge/Supported_macOS:-≤14.3_beta-gree.svg) ![Last Update](https://img.shields.io/badge/Last_Update_(yy/mm/dd):-25.07.22-blueviolet.svg)
 
 # AppleALC Guides
 
