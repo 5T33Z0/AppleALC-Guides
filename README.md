@@ -10,11 +10,12 @@ This repository contains guides for working with the AppleALC source code to get
 
 ## Included Guides
 
-- [How to create/modify a Layout-ID for AppleALC](https://github.com/5T33Z0/AppleALC-Guides/tree/main/AppleALC_Layout-ID)
-- [AppleALC File Management](https://github.com/5T33Z0/AppleALC-Guides/tree/main/File_Management)
-- [Testing Notes Template](https://github.com/5T33Z0/AppleALC-Guides/blob/main/AppleALC_Layout-ID/Testing_Notes.md)
-- [Slimming and compiling the AppleALC kext](https://github.com/5T33Z0/AppleALC-Guides/tree/main/Slimming_AppleALC)
-- [Collected Coded Dumps with Codec Schematics](https://github.com/5T33Z0/AppleALC-Guides/tree/main/Codec_Dumps)
+- [How to create/modify a Layout-ID for AppleALC](/AppleALC_Layout-ID)
+- [Using alc-verb for testing audio routes](/AppleALC_Layout-ID/alc-verb_explained.md)
+- [AppleALC File Management](/File_Management)
+- [Testing Notes Template](/Testing_Notes.md)
+- [Slimming and compiling the AppleALC kext](/Slimming_AppleALC)
+- [Collected Coded Dumps with Codec Schematics](/Codec_Dumps)
 
 ## Credits and Resources
 &rarr; see respective sections for details.
