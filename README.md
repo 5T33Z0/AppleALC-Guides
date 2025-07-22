@@ -13,7 +13,7 @@ This repository contains guides for working with the AppleALC source code to get
 - [How to create/modify a Layout-ID for AppleALC](/AppleALC_Layout-ID)
 - [Using alc-verb for testing audio routes](/AppleALC_Layout-ID/alc-verb_explained.md)
 - [AppleALC File Management](/File_Management)
-- [Testing Notes Template](/Testing_Notes.md)
+- [Testing Notes Template](/AppleALC_Layout-ID/Testing_Notes.md)
 - [Slimming and compiling the AppleALC kext](/Slimming_AppleALC)
 - [Collected Coded Dumps with Codec Schematics](/Codec_Dumps)
 
