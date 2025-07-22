@@ -15,7 +15,7 @@ This repository contains guides for working with the AppleALC source code to get
 - [AppleALC File Management](/File_Management)
 - [Testing Notes Template](/AppleALC_Layout-ID/Testing_Notes.md)
 - [Slimming and compiling the AppleALC kext](/Slimming_AppleALC)
-- [Collected Coded Dumps with Codec Schematics](/Codec_Dumps)
+- [CODEC Dumps with Schematics](/Codec_Dumps)
 
 ## Credits and Resources
 &rarr; see respective sections for details.
