@@ -8,7 +8,10 @@ This guide is for compiling AppleALC for your Codec and the audio layout(s) of y
 - Download [AppleALC](https://github.com/acidanthera/AppleALC) Source Code (click on "Code" and "Download Zip") 
 - Unpack the .zip file
 - In Terminal, enter: <kbd>cd</kbd>, hit <kbd>Spacebar</kbd>, drag the AppleALC folder into the Terminal window and press <kbd>Enter</kbd>.
-- Next, enter `git clone https://github.com/acidanthera/MacKernelSDK` and hit <kbd>Enter</kbd>. This downloads the MacKernel SDK to the AppleALC source folder.
+- Next, downloads the MacKernel SDK to the AppleALC source folder Open Terminal and enter:
+  ```shell
+  git clone https://github.com/acidanthera/MacKernelSDK
+  ```` 
 - Add the **Debug** version of [Lilu.kext](https://github.com/acidanthera/Lilu/releases) to the AppleALC folder.
 - The resulting folder structure should look like this:</br>![](https://user-images.githubusercontent.com/76865553/173291777-9bc1285d-1ffa-479f-b7bf-b74cda6f23ae.png)
 
