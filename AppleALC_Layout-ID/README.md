@@ -215,7 +215,7 @@ Amongst other things, the Codec dump text contains the following details:
 
 - The Codec model
 - Its Address (usually `0`)
-- It's Vendor Id (in AppleALC it's used as `CodecID`)
+- Its Vendor Id (in AppleALC it's used as `CodecID`)
 - Pin Complex Nodes with Control Names (these are eligible for the `PinConfig`)
 - The actual routing capabilities of the Codec:
 	- Pin Complex Nodes
