@@ -2,7 +2,9 @@
 
 `alc-verb` is a command-line tool that ships with the **AppleALC source code**. It lets you send HDA (High Definition Audio) verb commands directly to your audio codec at runtime, without recompiling the kext or rebooting. This makes it invaluable for testing verb sequences and pin control configurations before committing them to a layout.
 
-> **Note**: `alc-verb` is not included in the AppleALC release `.zip`. It is compiled alongside the kext when you build AppleALC from source in Xcode. The binary ends up in `AppleALC/build/Release/` — refer to [Section XII of the main guide](README.md#xii-compiling-the-applealckext) for build instructions.
+> [!NOTE]
+>
+> `alc-verb` is not included in the AppleALC release `.zip`. It is compiled alongside the kext when you build AppleALC from source in Xcode. The binary ends up in `AppleALC/build/Release/` — refer to [Section XII of the main guide](README.md#xii-compiling-the-applealckext) for build instructions.
 
 ---
 
@@ -10,13 +12,17 @@
 
 ### 1. AppleALC and Lilu
 
-`AppleALC.kext` and `Lilu.kext` must be present, enabled in `config.plist`, and actually loading. Verify with:
+`AppleALC.kext` and `Lilu.kext` must be present, enabled in `config.plist`, and actually loading. To verify, run:
 
 ```bash
-log show --predicate 'process == "kernel" AND (eventMessage CONTAINS "AppleALC" OR eventMessage CONTAINS "Lilu")' --style syslog --source
+kextstat | grep -v com.apple
 ```
 
-Remove any conflicting kexts — **VoodooHDA** in particular will prevent AppleALC from working.
+This lists all currently loaded kexts that were injected via OpenCore (i.e. everything that isn't Apple's own kexts). AppleALC and Lilu should both appear in the output. If either is missing, it isn't loaded — check your `config.plist` and EFI kext folder before proceeding.
+
+> [!IMPORTANT]
+>
+> Remove any conflicting kexts — **VoodooHDA** in particular will prevent AppleALC from working.
 
 ### 2. Enable verb support
 
