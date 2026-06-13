@@ -122,7 +122,7 @@ Test the microphone in macOS’s Sound settings. If successful, add these verbs 
   - Test multiple layout IDs in `alcid=<id>` boot argument.
 
 - **macOS Version Issues**:
-  - As of macOS 26 Developer Preview 2, `AppleHDA.kext` is deprecated. Check AppleALC’s GitHub for compatibility updates.
+  - From macOS 26 Developer Preview 2 onward, Apple dropped `AppleHDA.kext`. AppleALC functioning on macOS 26 may require additional steps — check the [AppleALC GitHub releases](https://github.com/acidanthera/AppleALC/releases) page for the latest compatibility updates.
 
 ## Additional Resources
 
