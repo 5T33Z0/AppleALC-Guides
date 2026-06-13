@@ -139,7 +139,7 @@ Users who already have Linux installed can skip to [Dumping the Codec](#dumping-
 2. Store the generated `CodecDump.zip` on a medium which you can access later from within macOS (HDD, other USB stick, E-Mail, Cloud). You cannot store it on the Ventoy drive itself, since it's formatted in ExFat and can't be accessed by Linux without installing additional utilities.
 3. Reboot into macOS.
 4. Extract `CodecDump.zip` to the Desktop. It contains a folder with one or more .txt files. We are only interested in `card1-codec#0.txt`, additional dumps are usually from HDMI audio devices of GPUs.
-5. ⚠️ Rename `card0-codec#0.txt` to `codec_dump.txt`. Otherwise the script we will use later to convert it will fail.
+5. ⚠️ Rename `card1-codec#0.txt` to `codec_dump.txt`. Otherwise the script we will use later to convert it will fail.
 
 #### Working with Codec dumps obtained with Clover or OpenCore 
 If you can live without a schematic of the Codec, you *can* use the dumps created with Clover and OpenCore as well by following the instructions below.
@@ -244,7 +244,7 @@ Form/Color        | Function
 **Blue Lines**    | Connections to the Outputs
 
 ### How to read the schematic
-⚠️ The schematic is a bit hard to comprehend and interpret because of its structure. It's also misleading: since all the arrows point to the right one might think they represent the signal flow – they don't. So ignore them! Instead, you need to take an approach which follows the signal flow.
+⚠️ The schematic is a bit hard to comprehend and interpret because of its structure. It's also misleading: the arrows represent _connection capability_ — which nodes a given node can connect to — not signal flow direction. For outputs, they happen to point against the signal flow; for inputs, they coincidentally align with it. So don't rely on them. Instead, follow the actual signal flow.
 
 #### Routing Input Devices
 For **Input Devices**, start at the Input Node (red) and trace the route to the Pin Complex Node. 
@@ -379,9 +379,9 @@ The PathMap defines the routings of the Nodes within the Codec which are injecte
 #### Auto-Switching Mode
 In Auto-Switching Mode, the Input/Output signal is re-routed from the current Input/Output to another one automatically, once a jack is plugged into the system. On Laptops for example, Internal Speakers are muted and the signal is automatically re-routed to the Headphone or Line Output. Once the plug is pulled from the audio jack, the output switches  back to the internal speakers. Same for Inputs: the Internal Mic is muted when an external Mic or Headset is plugged into the 1/8" audio jack.
 
-For Auto Switching-Mode to work, certain conditions have to be met: 
+For Auto Switching-Mode to work, certain conditions have to be met:
 - The Pin Complex Node(s) must support the "Detect" feature
-- The Pin Complex Node(s) must have at least 2 possible connections to 2 different Mixer Nodes or Audio switches. Maybe switching between 2 Nodes connected to the same Mixer Node works as well but I haven't tested it yet.
+- The Pin Complex Node(s) must have at least 2 possible connections to 2 different Mixer Nodes or Audio Switches. Note that having multiple connections alone is not sufficient — the codec and board hardware must also have jack detection (presence detect) circuitry wired to the pin. Maybe switching between 2 Nodes connected to the same Mixer Node works as well but I haven't tested this.
 
 Let's have a look at the output side of the schematic:</br>![SwitchMode01](https://user-images.githubusercontent.com/76865553/171393009-65312baf-77c3-41d6-96d6-18359933aad5.png)
 
@@ -486,7 +486,7 @@ Obviously, we need to avoid changing data of existing Platforms.xml files create
 - Change the `PathMapID` at the bottom of list so it's identical to the number of your Layout-ID (in my case it's `39`):</br>![platforms02](https://user-images.githubusercontent.com/76865553/171393131-44cd8562-104b-4008-9a4d-43707b880327.png)
 
 ## VII. Transferring the PathMap to `PlatformsXX.xml`
-Now that we traced all the possible paths to connect Pin Complex Nodes with Inputs and Outputs, we need to transfer the ones we need to a PlatformXXX.xml file. "XY" corresponds to the previously chosen Layout-ID. In my case it will be `Platforms39.xml`.
+Now that we traced all the possible paths to connect Pin Complex Nodes with Inputs and Outputs, we need to transfer the ones we need to a `PlatformsXX.xml` file. "XY" corresponds to the previously chosen Layout-ID. In my case it will be `Platforms39.xml`.
 
 ### Transferring PinComplex Nodes to PlatformsXX.xml
 1. Take the chart with the possible connections you traced in Chapter IV.
@@ -597,9 +597,9 @@ So, I add the path 27 - 12 - 2 to `Platforms39.xml`:
 	- **PublishMute**: YES
 	- **PublishVolume**: YES
 	- **VolumeInputAmp**: NO 
-- For Inputs, you also have to check the `nsteps` value of the Amp-In Caps and add an entry for "Boost" to the last Node of a path. If `nsteep=3`. Take For example 
-- Repeat for other devices you want to add to the PathMap
-- Save the file
+- For Inputs, you also have to check the `nsteps` value of the Amp-In Caps for the destination node. If `nsteps=3`, add a `Boost` entry with value `3` to the last node in the input path.
+- Repeat for other devices you want to add to the PathMap.
+- Save the file.
 
 ### Example: Adding an Input device to the PlatformsXX.xml
 - Open PlatformsXX.xml (`XX` = number you chose for your Layout-ID)
@@ -614,7 +614,7 @@ So, I add the path 27 - 12 - 2 to `Platforms39.xml`:
 - Save the file.
 
 ## VIII. Adding/Modifying `layoutXX.xml`
-The layoutXX.aml file defines for which Codec the Layout is for (`CodecID` = `Vendor Id` in codec_dump_dec.txt) and describes the types of Inputs and Outputs that are available. It also contains the reference to the PathMap which should be applied to the Codec (`PathMapID`) for the chosen `LayoutID` (ID 39 in this example).
+The `layoutXX.xml` file defines which Codec the Layout is for (`CodecID` = `Vendor Id` in codec_dump_dec.txt) and describes the types of Inputs and Outputs that are available. It also contains the reference to the PathMap which should be applied to the Codec (`PathMapID`) for the chosen `LayoutID` (ID 39 in this example).
 
 ### Modifying an existing `layoutXX.xml`
 - Navigate to `AppleALC/Resources/YOUR_CODEC` (in my case ALC269)
@@ -630,7 +630,7 @@ The layoutXX.aml file defines for which Codec the Layout is for (`CodecID` = `Ve
 - Save the file.
 
 ### Calculating MuteGPIO
-`MuteGPIO` is responsible for enabling/disabling Mic and LineIn Amps. It has to be entered in the layout.xml in decimal (if it is not present already):
+`MuteGPIO` sets the voltage reference (VREF) applied to an input pin node via a pin control verb. It controls whether the pin is in input mode with the correct bias voltage, which effectively enables or disables the mic/line-in signal path. Not all codecs require this — check your codec dump for `Pin-ctls: IN VREF_xx` entries to determine if and which nodes need it. It has to be entered in the `layout.xml` in decimal:
 
 ![](https://user-images.githubusercontent.com/76865553/172787254-f5fe21fb-5466-49a6-afcc-87c16391aa71.png)
 
@@ -788,7 +788,7 @@ Parameter        | Description
 Now that we (finally) have our `PinConfig`, we have to integrate it into the AppleALC source code. Depending on your use case, the workflow differs. So pick a scenario which best suits your use case.
 
 ### Finding an unused Layout-ID number
-In order to find a yet unused Layout-ID for your Codec, you have to check which Layout-IDs exist already and chose a different one in the range from 11 to 99:
+In order to find a yet unused Layout-ID for your Codec, you have to check which Layout-IDs exist already and chose a different one in the range from 11 to 255:
 
 - Visit [this repo](https://github.com/dreamwhite/ChonkyAppleALC-Build)
 - Click on the folder of your Codec manufacturer (in my case it's "Realtek")
@@ -798,7 +798,7 @@ In order to find a yet unused Layout-ID for your Codec, you have to check which 
 
 I am picking Layout-ID 39 because a) it's available and b) followed by by the Lenovo W530 which is the workstation version of the T530.
 
-**IMPORTANT**: Layout-IDs 1 to 10 are reserved but Layouts 11 to 99 are user-assignable. 
+**IMPORTANT**: Layout-IDs 1 to 10 are reserved. Layout-IDs 11 to 255 are user-assignable, though values above 99 are rarely used in practice. 
 
 #### Scenario 1: Modifying data of an existing Layout-ID
 
@@ -851,7 +851,7 @@ Now the we have edited all the files we need, we have to integrate them into the
 - Change the following details:
 	- **Comment**: Author and Codec/Device
 	- **Id**: Enter the Layout-ID you are using
-	- **Path**: layoutXX.xlm.zlib (XX = the chosen layout-id number. During compilation, the .xml file will be compressed to .zlib so the path has to point to the compressed version)
+	- **Path**: layoutXX.xml.zlib (XX = the chosen layout-id number. During compilation, the .xml file will be compressed to .zlib so the path has to point to the compressed version)
 - Do the same in the "Platforms" section but use "PlatformsXX.xml.zlib" as "Path" instead:</br>![Info03](https://user-images.githubusercontent.com/76865553/171394021-c85dbda3-e248-4445-85b1-8c5d7c15cf9c.png)
 
 **IMPORTANT**: If these entries don't exist, the AppleALC.kext will be compiled but your Layout-ID entry won't be included, aka no Sound!
@@ -861,7 +861,7 @@ Now that we finally prepared all the required files, we can finally compile the 
 
 - Open Terminal
 - Type `cd`, hit space, drag your AppleALC Folder into the Terminal window and hit enter. This is now your working directory.
-- Enter `xcodebuild` and hit Enter. Compiling should begin and a lot of text will scroll on screen during the process.
+- Enter `xcodebuild -configuration Release` and hit Enter. Without the `-configuration Release` flag, some Xcode versions default to a Debug build.
 - Once the kext is compiled, there should be as prompt: "BUILD SUCCEEDED". 
 - The kext will present in `/AppleALC/build/Release`.
 
