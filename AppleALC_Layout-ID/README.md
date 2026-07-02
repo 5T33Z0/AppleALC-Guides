@@ -277,7 +277,9 @@ For **Output Devices**, start at the Pin Complex Node and follow the signal thro
        id1(Pin Complex XY) ---->|Direct Connection|id5(((Output X)))
 	```
 
-**NOTE**: Whether or not a signal traverses more than one Mixer Node depends on a Codec's design. What's important is to list all the "stations" a signal passes from the Pin Complex Node to the desired Output!
+> [!NOTE]
+>
+> Whether or not a signal traverses more than one Mixer Node depends on the Codec's design. What's important is to list all the "stations" a signal passes from the Pin Complex Node to the desired Output!
 
 #### Routing Examples from ALC269
 
@@ -295,7 +297,8 @@ For **Output Devices**, start at the Pin Complex Node and follow the signal thro
     	id1(Node21: HP out) --> |possible path A| id3{Mixer 12} --> id5(((Output 2)))
     	id1(Node21: HP out) --> |possible path B| id4{Mixer 13} --> id6(((Output 3)))
 	```
-	**NOTE**: The number of possible paths depends on the number of connections a PinComplex Node provides. 
+ 	> [!NOTE]
+  	> The number of possible paths depends on the number of connections a PinComplex Node provides. 
 - **Internal Mic Input** (fixed/hardwired connection):
 
 	```mermaid
@@ -445,11 +448,11 @@ In manual switching mode, you have to switch/select Inputs/Outputs manually in t
 
 Now that we know to enter the routing data into the PlatformsXX.xml file, we can begin entering the data in a new file.
 
-⚠️ **NOTES**
-
-- Make sure to get the hierarchy of the Platforms.xml right. Otherwise there won't be any Input/Output Sources available!
-- Nodes used in the `PathMap` must exist in the `PinConfig`! You might have to go back and forth between generating a `PinConfig`, adding/updating it in the info.plist inside of `PinConfigs.kext` and adjusting the `PlatformsXX.xml` to make it all work!
-- You can combine both, auto switching and manual switching. For example, you could use auto mode to switch back and forth between internal Speakers and the Headphone Out but add an extra Line-Out in manual mode if your Codec can't be configured to switch between all three sources automatically (if it lacks an Audio Switch).
+> [!NOTE]
+>
+> - Make sure to get the hierarchy of the Platforms.xml right. Otherwise there won't be any Input/Output Sources available!
+> - Nodes used in the `PathMap` must exist in the `PinConfig`! You might have to go back and forth between generating a `PinConfig`, adding/updating it in the info.plist inside of `PinConfigs.kext` and adjusting the `PlatformsXX.xml` to make it all work!
+> - You can combine both, auto switching and manual switching. For example, you could use auto mode to switch back and forth between internal Speakers and the Headphone Out but add an extra Line-Out in manual mode if your Codec can't be configured to switch between all three sources automatically (if it lacks an Audio Switch).
 
 ## VI. Creating a `PlatformsXX.xml`
 There are 2 methods for creating a `PlatformsXX.xml` file: one utilizes VoodooHDA.kext and a forgotten script called `GetDumpXML`. It generates a `Platforms.xml` file, which contains all the required Nodes for switching Inputs/Outputs manually. It works out of the box and allows you to skip Chapter IX completely which is a big time saver. Unfortunately, this method doesn't work beyond macOS Catalina, so users of Big Sur and newer need to follow the manual method instead.
@@ -472,7 +475,9 @@ There are 2 methods for creating a `PlatformsXX.xml` file: one utilizes VoodooHD
 - Reboot
 - Continue in Chapter X.
 
-**NOTE**: You can also rearrange the structure of the .xml file to introduce auto-switching, but I would do that after you've verified that everything is working.
+> [!NOTE]
+>
+> You can also rearrange the structure of the .xml file to introduce auto-switching, but I would do that after you've verified that everything is working.
 
 ### Manual Method
 Obviously, we need to avoid changing data of existing Platforms.xml files created by other users. Because it would destroy the Layout for other users, if the Source Code would get synced with the AppleALC repo. Instead, we need to create a new one for our Layout-ID with our own routing, so do the following:
@@ -500,7 +505,9 @@ On the Input side, the structure is the same. The only difference is that the or
 - To add more devices to the PathMap, duplicate one of the "Source" Array and change the data.
 - Once, you're done, save the file.
 
-**NOTE**: `LayoutID` and `PathMapID` **must be identical** and must use the same number you chose for your Layout-ID previously.
+> [!NOTE]
+>
+> `LayoutID` and `PathMapID` **must be identical** and must use the same number you chose for your Layout-ID previously.
 
 #### Example: Finished PathMap for Layout39
 Here's how the finished `Platforms39.xml` with added Node 27 in Auto Switch Mode looks like:
@@ -701,7 +708,9 @@ Preferred method if you just want to inject the default Input/Output sources int
 11. Paste the `ConfigData` in an empty line and save the file. We'll need it later.
 12. Continue in **Chapter X.**
 
-**NOTE**: If you want to know how decode `ConfigData` to fix issues, have a look at [this](https://gist.github.com/fewtarius/f691d97513c4f7e527cb41f44c069548#a-simple-pincomplex-primer). 
+> [!NOTE]
+>
+> If you want to know how decode `ConfigData` to fix issues, have a look at [this](https://gist.github.com/fewtarius/f691d97513c4f7e527cb41f44c069548#a-simple-pincomplex-primer). 
 
 #### Modifying an existing PinConfig (adding Outputs/Inputs)
 In case you already have a somewhat working Layout-ID that you want/need to modify, you can import its PinConfig into PinConfigurator for editing. There are 2 methods to do it:
@@ -780,7 +789,9 @@ Parameter        | Description
 
 ![PCfgFnl01](https://user-images.githubusercontent.com/76865553/173185501-f06f390b-819b-4859-9796-6cbac3487618.png)
 
-**NOTE**: Ignore NID 24, it's unused.
+> [!NOTE]
+>
+> Ignore NID 24, it's unused.
 
 ## X. Integrating the `PinConfig` into the AppleALC source code
 Now that we (finally) have our `PinConfig`, we have to integrate it into the AppleALC source code. Depending on your use case, the workflow differs. So pick a scenario which best suits your use case.
@@ -852,7 +863,9 @@ Now the we have edited all the files we need, we have to integrate them into the
 	- **Path**: layoutXX.xml.zlib (XX = the chosen layout-id number. During compilation, the .xml file will be compressed to .zlib so the path has to point to the compressed version)
 - Do the same in the "Platforms" section but use "PlatformsXX.xml.zlib" as "Path" instead:</br>![Info03](https://user-images.githubusercontent.com/76865553/171394021-c85dbda3-e248-4445-85b1-8c5d7c15cf9c.png)
 
-**IMPORTANT**: If these entries don't exist, the AppleALC.kext will be compiled but your Layout-ID entry won't be included, aka no Sound!
+> [!IMPORTANT]
+>
+> If these entries don't exist, the AppleALC.kext will be compiled but your Layout-ID entry won't be included, aka no Sound!
 
 ## XII. Compiling the AppleALC.kext
 Now that we finally prepared all the required files, we can finally compile the kext.
@@ -871,7 +884,9 @@ Now that we finally prepared all the required files, we can finally compile the 
 - Check if sound is working (Internal, Inputs, Outputs, Headphones)
 - If it's working: congrats!
 
-**NOTE**: For testing verbs and `WakeConfigData` you can use `alc-verb` (it's in the Build folder) and Terminal to inject verbs into the Codec during runtime. This way, you don't have to edit the PinConfig, the .xml files and recompile the kext every time you want to test something. But I have yet to figure out how it works. Requires boot-arg `alcverbs=1` or `alc-verbs` device property for the Codec to be present in the `config.plist`.
+> [!NOTE]
+>
+> For testing verbs and `WakeConfigData` you can use `alc-verb` (it's in the Build folder) and Terminal to inject verbs into the Codec during runtime. This way, you don't have to edit the PinConfig, the .xml files and recompile the kext every time you want to test something. But I have yet to figure out how it works. Requires boot-arg `alcverbs=1` or `alc-verbs` device property for the Codec to be present in the `config.plist`.
 
 ### Troubleshooting
 Follow the [AppleALC Troubleshooting Guide](https://github.com/dortania/OpenCore-Install-Guide/blob/e08ee8ebe6fa030393c153b055225f721edafab2/post-install/audio.md#troubleshooting) by Dortania
