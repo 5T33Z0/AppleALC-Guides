@@ -36,76 +36,78 @@ flowchart LR
 ### Phases in Detail
 
 ```mermaid
-flowchart TB
-    A(["Start: Create / Modify AppleALC Layout-ID"])
+flowchart TD
+    Start(["Start: Create / Modify AppleALC Layout-ID"]) --> P1
 
-    subgraph P1["1. Preparation & Data Acquisition"]
-        B["Boot Linux Live Environment"]
-        C["Obtain Audio Codec Dump<br/>codec-dump.txt"]
-        D["Install / Prepare Required Tools<br/>CodecGraph, PinConfigurator, Xcode"]
-        B --> C
-        C --> E["Convert Codec Dump<br/>codec-dump_dec.txt"]
-        E --> F["Generate Codec Schematic<br/>Codec-Dump.svg"]
+    subgraph P1["1. Preparation & Extraction"]
+        direction TB
+        B["Boot Linux Live & Prepare Tools<br/><i>CodecGraph, PinConfigurator</i>"]
+        C["Dump Codec & Convert<br/><code>codec-dump.txt</code> → <code>codec-dump_dec.txt</code>"]
+        F["Generate Codec Schematic<br/><code>Codec-Dump.svg</code>"]
+        B --> C --> F
     end
 
     subgraph P2["2. Codec Analysis"]
-        G["Identify Codec and Vendor ID"]
+        direction TB
+        G["Identify Codec & Vendor ID"]
         H["Analyze Pin Complex Nodes"]
-        I["Trace Input / Output Signal Paths"]
-        J["Identify Mixers, Outputs and<br/>Amplifier Capabilities"]
-        G --> H --> I --> J
+        I["Trace I/O Paths, Mixers & Amps"]
+        G --> H --> I
     end
 
-    subgraph P3["3. Layout Configuration"]
-        K["Find Existing Layout-ID<br/>as a Starting Point"]
-        L["Choose an Unused Layout-ID"]
-        M["Create / Modify PinConfig<br/>PinConfigs.kext / info.plist"]
-        N["Create PlatformsXX.xml<br/>Define PathMaps and Audio Routing"]
-        O["Create layoutXX.xml<br/>Define Codec, Inputs, Outputs and PathMapID"]
-        K --> L --> M
-        M --> N
-        M --> O
-        N <--> O
+    subgraph P3["3. Layout & Platform Config"]
+        direction TB
+        K["Pick Base Layout-ID & Select Unused ID"]
+        M["Generate PinConfig<br/><i>PinConfigs.kext / info.plist</i>"]
+        N["Create <code>PlatformsXX.xml</code><br/><i>Define PathMaps & Routing</i>"]
+        O["Create <code>layoutXX.xml</code><br/><i>Define Codec, I/O & PathMapID</i>"]
+        K --> M --> N --> O
     end
 
-    subgraph P4["4. AppleALC Integration"]
-        Q["Integrate PinConfig into<br/>PinConfigs.kext"]
-        R["Register Layout and Platforms<br/>in Codec info.plist"]
-        S["Verify XML / Plist References<br/>and Layout-ID Consistency"]
-        Q --> R --> S
+    subgraph P4["4. AppleALC Integration & Build"]
+        direction TB
+        Q["Merge PinConfigs into <code>PinConfigs.kext</code>"]
+        R["Register Layout & Platforms in <code>info.plist</code>"]
+        T["Compile AppleALC.kext<br/><code>xcodebuild -configuration Release</code>"]
+        Q --> R --> T
     end
 
-    subgraph P5["5. Build & Testing"]
-        T["Compile AppleALC.kext<br/>xcodebuild -configuration Release"]
-        U["Install Compiled Kext<br/>Configure Layout-ID in config.plist"]
-        V["Reboot and Test Audio<br/>Inputs, Outputs, Headphones"]
+    subgraph P5["5. Testing & Verification"]
+        direction TB
+        U["Install Kext & Set Layout-ID in <code>config.plist</code>"]
+        V["Reboot & Test Audio I/O"]
         W{"Audio Working<br/>as Expected?"}
-        T --> U --> V --> W
+        Fix["Adjust PinConfig, PathMap, or Layout"]
+        U --> V --> W
+        W -- "No" --> Fix
+        Fix --> U
     end
 
     subgraph P6["6. Finalization"]
-        X["Prepare Changes in AppleALC Fork"]
-        Y["Commit and Push Changes"]
-        Z["Create Pull Request"]
-        AA(["Layout-ID Integrated<br/>into AppleALC"])
-        X --> Y --> Z --> AA
+        direction TB
+        X["Commit & Push to AppleALC Fork"]
+        Z["Submit Pull Request"]
+        AA(["Integrated upstream"])
+        X --> Z --> AA
     end
 
-    A --> B
-    F --> G
-    J --> K
-    S --> T
-    W -->|No| AB["Troubleshoot and Adjust<br/>PinConfig / PathMap / Layout.xml"]
-    AB --> M
-    W -->|Yes| AC{"Submit to<br/>AppleALC?"}
-    AC -->|Yes| X
-    AC -->|No| AD(["Finished: Custom Layout-ID"])
+    %% Phase Connections
+    P1 --> P2
+    P2 --> P3
+    P3 --> P4
+    P4 --> P5
+    W -- "Yes" --> Fork{"Upstream<br/>Submission?"}
+    Fork -- "Yes" --> P6
+    Fork -- "No" --> Done(["Done: Local Layout-ID"])
 
-    style A fill:#2563eb,color:#fff,stroke:#2563eb
-    style AA fill:#16a34a,color:#fff,stroke:#16a34a
-    style AD fill:#16a34a,color:#fff,stroke:#16a34a
-    style W fill:#d97706,color:#fff,stroke:#d97706
-    style AC fill:#d97706,color:#fff,stroke:#d97706
+    %% Clean Styling
+    classDef terminal fill:#1e40af,stroke:#3b82f6,color:#fff,stroke-width:2px;
+    classDef decision fill:#d97706,stroke:#f59e0b,color:#fff,stroke-width:2px;
+    classDef success fill:#15803d,stroke:#22c55e,color:#fff,stroke-width:2px;
+
+    class Start terminal;
+    class W,Fork decision;
+    class AA,Done success;
 ```
 
 The following 3 aspects deserve particular attention in the diagram:
