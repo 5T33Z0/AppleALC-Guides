@@ -11,6 +11,30 @@ The diagram is designed as a high-level overview rather than a replacement for t
 
 ## Workflow Diagram
 
+### Phases
+
+```mermaid
+flowchart LR
+    A["1. Preparation"] --> B["2. Codec Analysis"]
+    B --> C["3. Layout Configuration"]
+    C --> D["4. AppleALC Integration"]
+    D --> E["5. Build & Testing"]
+    E --> F["6. Finalization"]
+
+    E -. "Test failed" .-> C
+```
+
+| Phase              | Main objective                                    | Primary output            |
+| ------------------ | ------------------------------------------------- | ------------------------- |
+| 1. Preparation     | Obtain and convert codec data                     | Codec dump and schematic  |
+| 2. Analysis        | Identify nodes, signal paths and amp capabilities | Audio routing map         |
+| 3. Configuration   | Create PinConfig, PathMap and Layout              | Three configuration files |
+| 4. Integration     | Register all components in AppleALC               | Integrated source files   |
+| 5. Build & Testing | Compile, install and validate                     | Working AppleALC.kext     |
+| 6. Finalization    | Submit changes upstream (optional)                | AppleALC Pull Request     |
+
+### Phases in Detail
+
 ```mermaid
 flowchart LR
     A(["Start: Create / Modify AppleALC Layout-ID"])
@@ -83,23 +107,6 @@ flowchart LR
     style W fill:#d97706,color:#fff,stroke:#d97706
     style AC fill:#d97706,color:#fff,stroke:#d97706
 ```
-
-Based on your [AppleALC Layout-ID Guide](https://github.com/5T33Z0/AppleALC-Guides/tree/main/AppleALC_Layout-ID?utm_source=chatgpt.com), the processing workflow consists of six major phases, starting with obtaining and analyzing the audio codec data and ending with testing and optionally submitting the finished Layout-ID to the AppleALC repository.
-
-The important aspect is that this is an iterative process: PinConfig, PathMap and Layout configuration may need to be adjusted repeatedly until the audio routing works correctly.
-
-## The six processing phases
-
-| Phase              | Main objective                                    | Primary output            |
-| ------------------ | ------------------------------------------------- | ------------------------- |
-| 1. Preparation     | Obtain and convert codec data                     | Codec dump and schematic  |
-| 2. Analysis        | Identify nodes, signal paths and amp capabilities | Audio routing map         |
-| 3. Configuration   | Create PinConfig, PathMap and Layout              | Three configuration files |
-| 4. Integration     | Register all components in AppleALC               | Integrated source files   |
-| 5. Build & Testing | Compile, install and validate                     | Working AppleALC.kext     |
-| 6. Finalization    | Submit changes upstream (optional)                | AppleALC Pull Request     |
-
-## Important workflow characteristics
 
 The following 3 aspects deserve particular attention in the diagram:
 
