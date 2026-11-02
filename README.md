@@ -17,7 +17,7 @@ This repository contains guides for working with the AppleALC source code to get
 - [Slimming and compiling the AppleALC kext](/Slimming_AppleALC)
 - [CODEC Dumps with Schematics](/Codec_Dumps)
 
-## ⚠️ macOS 26 Tahoe — Analog Audio is Broken
+## macOS 26 Tahoe — Analog Audio is Broken
 
 As of macOS 26 Tahoe beta 2, **AppleALC no longer works** for analog onboard audio (Realtek, Conexant, and similar codecs). This affects built-in speakers, headphone jacks, and line inputs.
 
@@ -25,9 +25,9 @@ As of macOS 26 Tahoe beta 2, **AppleALC no longer works** for analog onboard aud
 
 **What still works**: Digital audio via HDMI or DisplayPort outputs is unaffected, as it relies on different kexts. 
 
-**Workarounds**:
+**Fixes**:
 
-- [**VoodooHDA-Tahoe**](https://github.com/chris1111/VoodooHDA-Tahoe) — a drop-in replacement that doesn't depend on `AppleHDA`. Audio quality is generally lower than AppleALC, but it works. For additional info check Dortanias's [Notes about macOS Tahoe](https://dortania.github.io/OpenCore-Install-Guide/extras/tahoe.html).
+- [**SimpleHDA.kext**](https://github.com/laobamac/SimpleHDA) – restores AppleHDA. No Root Patching with OCLP required. Place kext after AppleALC. Requires boot-arg `keepsyms=1`.
 - **OCLP root patching** — reinstates `AppleHDA.kext` and its associated dylib via root volume patches, restoring full AppleALC functionality. Requires lowered SIP and an OCLP-based patcher. See [Audio on macOS Tahoe for Hackintosh systems](https://github.com/5T33Z0/OCLP4Hackintosh/blob/main/Enable_Features/Audio_Tahoe.md) for details.
 
 ## Credits and Resources
