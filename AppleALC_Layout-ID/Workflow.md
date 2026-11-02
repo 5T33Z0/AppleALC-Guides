@@ -36,7 +36,7 @@ flowchart LR
 ### Phases in Detail
 
 ```mermaid
-flowchart TD
+flowchart LR
     Start(["Start: Create / Modify AppleALC Layout-ID"]) --> P1
 
     subgraph P1["1. Preparation & Extraction"]
