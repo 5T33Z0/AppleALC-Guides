@@ -12,7 +12,7 @@ The diagram is designed as a high-level overview rather than a replacement for t
 ## Workflow Diagram
 
 ```mermaid
-flowchart TD
+flowchart LR
     A(["Start: Create / Modify AppleALC Layout-ID"])
 
     subgraph P1["1. Preparation & Data Acquisition"]
