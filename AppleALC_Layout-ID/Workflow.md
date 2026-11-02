@@ -31,7 +31,7 @@ flowchart LR
 | 3. Configuration   | Create PinConfig, PathMap and Layout              | Three configuration files |
 | 4. Integration     | Register all components in AppleALC               | Integrated source files   |
 | 5. Build & Testing | Compile, install and validate                     | Working AppleALC.kext     |
-| 6. Finalization    | Submit changes upstream (optional)                | AppleALC Pull Request     |
+| 6. Finalization    | Submit changes upstream (optional)                | AppleALC Pull Request (optional)   |
 
 ### Phases in Detail
 
