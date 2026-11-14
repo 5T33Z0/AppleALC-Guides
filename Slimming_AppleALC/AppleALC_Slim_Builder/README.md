@@ -1,5 +1,7 @@
 # AppleALC Slim Builder
 
+<img width="650" height="379" alt="Bildschirmfoto 2026-11-14 um 19 45 02" src="https://github.com/user-attachments/assets/d7be802c-7e44-4e21-97d5-f1e289f055c3" />
+
 Build a codec- and layout-specific `AppleALC.kext` from an AppleALC source checkout.
 
 ## About
