@@ -36,7 +36,7 @@ AppleALC/
 ├── MacKernelSDK/          <- required
 ├── Lilu.kext              <- required (Debug version)
 ├── Resources/
-├── build-applealc.py   <- this script
+├── build-applealc.py      <- this script
 └── ...
 ```
 
