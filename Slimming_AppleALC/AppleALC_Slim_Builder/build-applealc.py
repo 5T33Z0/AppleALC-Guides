@@ -65,19 +65,70 @@ def layout_ids(codec):
     return sorted(set(ids))
 
 
-def show_codec_matches(matches):
+_comment_cache = {}
+
+
+def codec_comments(codec):
+    """All Layout and Platform comments of a codec (cached)."""
+    if codec.name in _comment_cache:
+        return _comment_cache[codec.name]
+
+    comments = []
+    try:
+        files = load_plist(codec / "info.plist").get("Files", {})
+        for key in ("Layouts", "Platforms"):
+            for entry in files.get(key, []) or []:
+                comment = entry.get("Comment") if isinstance(entry, dict) else None
+                if isinstance(comment, str) and comment.strip():
+                    comments.append(comment.strip())
+    except Exception:
+        pass
+
+    _comment_cache[codec.name] = comments
+    return comments
+
+
+def search_codecs(codecs, term):
+    """Match codec names and layout/platform comments.
+
+    Every word of the search term must appear. Returns (codec, hint) pairs,
+    where hint is the first matching comment (None for a name match).
+    """
+    words = term.lower().split()
+    results = []
+    for codec in codecs:
+        name = codec.name.lower()
+        if all(w in name for w in words):
+            results.append((codec, None))
+            continue
+        for comment in codec_comments(codec):
+            haystack = f"{name} {comment.lower()}"
+            if all(w in haystack for w in words):
+                results.append((codec, comment))
+                break
+    return results
+
+
+def show_codec_matches(matches, hints=None):
+    hints = hints or {}
     print(f"\nMatching codecs ({len(matches)}):\n")
     for index, codec in enumerate(matches, 1):
         count = len(layout_ids(codec))
-        print(f"  [{index:3}] {codec.name:<12} ({count} layouts)")
+        line = f"  [{index:3}] {codec.name:<12} ({count} layouts)"
+        hint = hints.get(codec.name)
+        if hint:
+            if len(hint) > 70:
+                hint = hint[:67] + "..."
+            line += f"  <- {hint}"
+        print(line)
 
 
-def select_from_matches(matches):
+def select_from_matches(matches, hints=None):
     if not matches:
         print("No matching codecs found.")
         return None
 
-    show_codec_matches(matches)
+    show_codec_matches(matches, hints)
 
     while True:
         value = input("\nSelect codec number (or 'b' to go back): ").strip().lower()
@@ -102,17 +153,22 @@ def select_codec():
         choice = input("\nSelect option: ").strip()
 
         if choice == "1":
-            term = input("\nEnter codec name or search term: ").strip().lower()
+            term = input(
+                "\nEnter codec name or search term (name or comment): "
+            ).strip().lower()
             if not term:
                 print("Please enter a search term.")
                 continue
 
-            matches = [c for c in codecs if term in c.name.lower()]
-            exact = [c for c in matches if c.name.lower() == term]
+            exact = [c for c in codecs if c.name.lower() == term]
             if exact:
                 return exact[0]
 
-            selected = select_from_matches(matches)
+            results = search_codecs(codecs, term)
+            matches = [codec for codec, _ in results]
+            hints = {codec.name: hint for codec, hint in results if hint}
+
+            selected = select_from_matches(matches, hints)
             if selected:
                 return selected
 
@@ -128,14 +184,63 @@ def select_codec():
             print("Invalid option.")
 
 
+def entry_comment(entries, identifier):
+    """Return the Comment of the entry whose Id matches, or None."""
+    if not isinstance(entries, list) or identifier is None:
+        return None
+    for entry in entries:
+        if isinstance(entry, dict) and str(entry.get("Id")) == str(identifier):
+            comment = entry.get("Comment")
+            if isinstance(comment, str) and comment.strip():
+                return comment.strip()
+    return None
+
+
+def layout_platform_id(codec, layout_id):
+    """Read PathMapID from a layout file without aborting on errors."""
+    try:
+        raw = (codec / f"layout{layout_id}.xml").read_bytes()
+        wrapped = (
+            b'<?xml version="1.0" encoding="UTF-8"?>'
+            b'<plist version="1.0">' + raw + b'</plist>'
+        )
+        return plistlib.loads(wrapped)["PathMapRef"][0]["PathMapID"]
+    except Exception:
+        return None
+
+
+def layout_description(codec, layout_id, files):
+    # Primary: Files > Layouts > <entry with this Id> > Comment
+    comment = entry_comment(files.get("Layouts"), layout_id)
+    if comment:
+        return comment
+
+    # Fallback: Files > Platforms > <entry with this layout's PathMapID> > Comment
+    comment = entry_comment(
+        files.get("Platforms"), layout_platform_id(codec, layout_id)
+    )
+    if comment:
+        return comment
+
+    return "Description unavailable"
+
+
 def select_layout(codec):
     ids = layout_ids(codec)
     if not ids:
         abort(f"No layouts found for {codec.name}.")
 
+    try:
+        files = load_plist(codec / "info.plist").get("Files", {})
+        if not isinstance(files, dict):
+            files = {}
+    except Exception:
+        files = {}
+
     print(f"\nAvailable layouts for {codec.name}:\n")
     for layout_id in ids:
-        print(f"  [{layout_id}] Layout {layout_id}")
+        description = layout_description(codec, layout_id, files)
+        print(f"  [{layout_id}] Layout {layout_id} - {description}")
 
     while True:
         value = input("\nEnter Layout ID ('b' to choose another codec): ").strip().lower()
@@ -428,12 +533,6 @@ def main():
     prepare()
     RESOURCES = OUTPUT / "Resources"
 
-    # Build the untouched copy first to obtain a like-for-like baseline.
-    original_kext = run_build(
-        "Building full, unmodified AppleALC for size comparison..."
-    )
-    original_size = directory_size(original_kext)
-
     working_codec = RESOURCES / selected.name
     copied_layout = working_codec / layout.name
     if not copied_layout.is_file():
@@ -451,17 +550,13 @@ def main():
         shutil.rmtree(final_path)
     shutil.copytree(slimmed_kext, final_path)
 
-    reduction = (1 - slimmed_size / original_size) * 100 if original_size else 0
-
     print("\n==========================================")
     print("          APPLEALC BUILD SUCCESSFUL")
     print("==========================================")
     print(f"Codec:             {selected.name}")
     print(f"Layout:            {layout_id}")
     print(f"AppleALC:          {version}")
-    print(f"Original kext:     {format_size(original_size)}")
-    print(f"Slimmed kext:      {format_size(slimmed_size)}")
-    print(f"Size reduction:    {reduction:.1f}%")
+    print(f"Kext size:         {format_size(slimmed_size)}")
     print(f"\nOutput:            {final_path}")
 
     if keep_working:
