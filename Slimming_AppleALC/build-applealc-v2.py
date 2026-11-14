@@ -1,0 +1,481 @@
+#!/usr/bin/env python3
+"""
+AppleALC Slim Builder
+Builds a codec/layout-specific AppleALC.kext from an isolated copy
+of an AppleALC source checkout.
+"""
+
+import plistlib
+import re
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent
+OUTPUT = ROOT.parent / "AppleALC-Slimmed"
+RESOURCES = ROOT / "Resources"
+BUILDS = ROOT / "Builds"
+
+
+def abort(message):
+    print(f"\n[ERROR] {message}")
+    raise SystemExit(1)
+
+
+def confirm(prompt, default=True):
+    suffix = "[Y/n]" if default else "[y/N]"
+    answer = input(f"{prompt} {suffix}: ").strip().lower()
+    if not answer:
+        return default
+    return answer in ("y", "yes")
+
+
+def load_plist(path):
+    with open(path, "rb") as f:
+        return plistlib.load(f)
+
+
+def save_plist(path, data):
+    with open(path, "wb") as f:
+        plistlib.dump(data, f, fmt=plistlib.FMT_XML, sort_keys=False)
+
+
+def find_codec_folders():
+    if not RESOURCES.is_dir():
+        abort(f"Resources directory not found: {RESOURCES}")
+
+    folders = []
+    for folder in RESOURCES.iterdir():
+        if not folder.is_dir():
+            continue
+        layouts = list(folder.glob("layout*.xml"))
+        if layouts and (folder / "info.plist").is_file():
+            folders.append(folder)
+
+    return sorted(folders, key=lambda p: p.name.lower())
+
+
+def layout_ids(codec):
+    ids = []
+    for path in codec.glob("layout*.xml"):
+        match = re.fullmatch(r"layout(\d+)", path.stem, flags=re.IGNORECASE)
+        if match:
+            ids.append(int(match.group(1)))
+    return sorted(set(ids))
+
+
+def show_codec_matches(matches):
+    print(f"\nMatching codecs ({len(matches)}):\n")
+    for index, codec in enumerate(matches, 1):
+        count = len(layout_ids(codec))
+        print(f"  [{index:3}] {codec.name:<12} ({count} layouts)")
+
+
+def select_from_matches(matches):
+    if not matches:
+        print("No matching codecs found.")
+        return None
+
+    show_codec_matches(matches)
+
+    while True:
+        value = input("\nSelect codec number (or 'b' to go back): ").strip().lower()
+        if value in ("b", "back"):
+            return None
+        if value.isdigit() and 1 <= int(value) <= len(matches):
+            return matches[int(value) - 1]
+        print("Invalid selection.")
+
+
+def select_codec():
+    codecs = find_codec_folders()
+    if not codecs:
+        abort("No codec folders found in Resources.")
+
+    while True:
+        print("\nCodec selection")
+        print("  [1] Search codecs")
+        print("  [2] List all codecs")
+        print("  [3] Exit")
+
+        choice = input("\nSelect option: ").strip()
+
+        if choice == "1":
+            term = input("\nEnter codec name or search term: ").strip().lower()
+            if not term:
+                print("Please enter a search term.")
+                continue
+
+            matches = [c for c in codecs if term in c.name.lower()]
+            exact = [c for c in matches if c.name.lower() == term]
+            if exact:
+                return exact[0]
+
+            selected = select_from_matches(matches)
+            if selected:
+                return selected
+
+        elif choice == "2":
+            selected = select_from_matches(codecs)
+            if selected:
+                return selected
+
+        elif choice == "3":
+            raise SystemExit(0)
+
+        else:
+            print("Invalid option.")
+
+
+def select_layout(codec):
+    ids = layout_ids(codec)
+    if not ids:
+        abort(f"No layouts found for {codec.name}.")
+
+    print(f"\nAvailable layouts for {codec.name}:\n")
+    for layout_id in ids:
+        print(f"  [{layout_id}] Layout {layout_id}")
+
+    while True:
+        value = input("\nEnter Layout ID ('b' to choose another codec): ").strip().lower()
+
+        if value in ("b", "back"):
+            return None, None
+
+        if not value.isdigit():
+            print("Enter a numeric Layout ID or 'b' to go back.")
+            continue
+
+        layout_id = int(value)
+        layout = codec / f"layout{layout_id}.xml"
+
+        if layout.is_file():
+            return layout_id, layout
+
+        print("Layout not found for this codec.")
+
+
+def read_layout_info(layout):
+    raw = layout.read_bytes()
+
+    # AppleALC layout files contain a bare plist dictionary, not a plist wrapper.
+    wrapped = (
+        b'<?xml version="1.0" encoding="UTF-8"?>'
+        b'<plist version="1.0">'
+        + raw
+        + b'</plist>'
+    )
+
+    try:
+        data = plistlib.loads(wrapped)
+    except plistlib.InvalidFileException:
+        abort(f"Could not parse layout resource: {layout.name}")
+
+    path_refs = data.get("PathMapRef", [])
+    if not path_refs:
+        abort("PathMapRef is missing or empty in the selected layout.")
+
+    codec_ids = path_refs[0].get("CodecID", [])
+    platform_id = path_refs[0].get("PathMapID")
+
+    if not codec_ids or platform_id is None:
+        abort("Could not resolve CodecID or PathMapID from the selected layout.")
+
+    return codec_ids[0], platform_id
+
+
+def find_files_dictionary(data):
+    files = data.get("Files")
+    if not isinstance(files, dict):
+        abort("Unexpected codec info.plist structure: Files dictionary missing.")
+    if not isinstance(files.get("Layouts"), list):
+        abort("Layouts array missing from codec info.plist.")
+    if not isinstance(files.get("Platforms"), list):
+        abort("Platforms array missing from codec info.plist.")
+    return files
+
+
+def slim_codec(codec, layout_id, layout):
+    codec_id, platform_id = read_layout_info(layout)
+
+    print(f"\nCodecID:   {codec_id}")
+    print(f"LayoutID:  {layout_id}")
+    print(f"PathMapID: {platform_id}")
+
+    info_path = codec / "info.plist"
+    info = load_plist(info_path)
+    files = find_files_dictionary(info)
+
+    def find_entry(entries, identifier):
+        for entry in entries:
+            if str(entry.get("Id")) == str(identifier):
+                return entry
+        return None
+
+    layout_entry = find_entry(files["Layouts"], layout_id)
+    if not layout_entry:
+        abort("Selected layout is not registered in codec info.plist.")
+
+    platform_entry = find_entry(files["Platforms"], platform_id)
+    if not platform_entry:
+        abort(f"Platform resource {platform_id} not registered.")
+
+    layout_path = layout_entry.get("Path")
+    platform_path = platform_entry.get("Path")
+    if not layout_path or not platform_path:
+        abort("Missing resource paths in codec info.plist.")
+
+    required_files = {
+        layout_path.removesuffix(".zlib"),
+        platform_path.removesuffix(".zlib"),
+    }
+
+    print("\nRequired resources:")
+    for name in sorted(required_files):
+        print(f"  {name}")
+
+    for pattern in ("layout*.xml", "Platforms*.xml"):
+        for file in codec.glob(pattern):
+            if file.name not in required_files:
+                file.unlink()
+
+    files["Layouts"] = [layout_entry]
+    files["Platforms"] = [platform_entry]
+    save_plist(info_path, info)
+
+    return codec_id
+
+
+def slim_other_codecs(selected):
+    for folder in find_codec_folders():
+        if folder.name != selected.name:
+            shutil.rmtree(folder)
+            print(f"Removed codec: {folder.name}")
+
+
+def find_pinconfig():
+    candidates = [
+        OUTPUT / "PinConfigs.kext" / "Contents" / "Info.plist",
+        OUTPUT / "Resources" / "PinConfigs.kext" / "Contents" / "Info.plist",
+        OUTPUT / "PinConfig.kext" / "Contents" / "Info.plist",
+        OUTPUT / "Resources" / "PinConfig.kext" / "Contents" / "Info.plist",
+    ]
+
+    for path in candidates:
+        if path.is_file():
+            return path
+
+    abort("Could not locate PinConfig(s).kext Info.plist.")
+
+
+def slim_pinconfig(layout_id, codec_id):
+    path = find_pinconfig()
+    data = load_plist(path)
+
+    try:
+        personalities = data["IOKitPersonalities"]
+        personality = personalities["as.vit9696.AppleALC"]
+        entries = personality["HDAConfigDefault"]
+    except (KeyError, TypeError):
+        abort("Unexpected PinConfig plist structure.")
+
+    original_count = len(entries)
+    kept = [
+        entry for entry in entries
+        if str(entry.get("LayoutID")) == str(layout_id)
+        and str(entry.get("CodecID")) == str(codec_id)
+    ]
+
+    if not kept:
+        abort(
+            "No PinConfig entry found matching "
+            f"CodecID {codec_id} and LayoutID {layout_id}."
+        )
+
+    personality["HDAConfigDefault"] = kept
+    save_plist(path, data)
+    print(f"\nPinConfig entries: {original_count} -> {len(kept)}")
+
+
+def source_version():
+    version = "Unknown"
+    commit = "Not available"
+
+    if (ROOT / ".git").exists():
+        try:
+            result = subprocess.run(
+                ["git", "describe", "--tags", "--always"],
+                cwd=ROOT, capture_output=True, text=True, check=True
+            )
+            version = result.stdout.strip()
+            result = subprocess.run(
+                ["git", "rev-parse", "--short", "HEAD"],
+                cwd=ROOT, capture_output=True, text=True, check=True
+            )
+            commit = result.stdout.strip()
+            return version, commit
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            pass
+
+    # ZIP/source-archive fallback: read project build settings if present.
+    project_file = ROOT / "AppleALC.xcodeproj" / "project.pbxproj"
+    if project_file.is_file():
+        project_text = project_file.read_text(errors="replace")
+        match = re.search(r"MARKETING_VERSION\s*=\s*([^;]+);", project_text)
+        if match:
+            version = match.group(1).strip().strip('"')
+        commit = "Source archive (no Git metadata)"
+
+    return version, commit
+
+
+def prepare():
+    if not (ROOT / "AppleALC.xcodeproj").exists():
+        abort("Run this script from the AppleALC repository root.")
+    if not (ROOT / "MacKernelSDK").exists():
+        abort("MacKernelSDK missing. Clone it into the AppleALC root.")
+    if not (ROOT / "Lilu.kext").exists():
+        abort("Lilu.kext missing from the AppleALC root.")
+
+    if OUTPUT.exists():
+        if not confirm(f"\n{OUTPUT} already exists. Replace it?", default=False):
+            abort("Cancelled.")
+        shutil.rmtree(OUTPUT)
+
+    print("\nCreating isolated working copy...")
+    shutil.copytree(
+        ROOT,
+        OUTPUT,
+        ignore=shutil.ignore_patterns(
+            ".git", "build", "Builds", "DerivedData", "__pycache__", ".DS_Store"
+        ),
+    )
+
+
+def run_build(label):
+    print(f"\n{label}\n")
+    result = subprocess.run(
+        [
+            "xcodebuild",
+            "-project", "AppleALC.xcodeproj",
+            "-configuration", "Release",
+            "clean", "build",
+        ],
+        cwd=OUTPUT,
+    )
+
+    if result.returncode != 0:
+        abort(f"{label} failed (xcodebuild exit code {result.returncode}).")
+
+    kext = OUTPUT / "build" / "Release" / "AppleALC.kext"
+    if not kext.is_dir():
+        abort(f"Build completed but expected kext was not found: {kext}")
+
+    return kext
+
+
+def directory_size(path):
+    return sum(
+        file.stat().st_size
+        for file in path.rglob("*")
+        if file.is_file()
+    )
+
+
+def format_size(size):
+    return f"{size / (1024 * 1024):.2f} MB"
+
+
+def main():
+    global RESOURCES
+
+    version, commit = source_version()
+
+    print("\n==========================================")
+    print("           APPLEALC SLIM BUILDER")
+    print("==========================================")
+    print(f"AppleALC: {version}")
+    print(f"Git:      {commit}")
+
+    while True:
+        selected = select_codec()
+        layout_id, layout = select_layout(selected)
+        if layout is not None:
+            break
+
+    print("\n==========================================")
+    print("             BUILD CONFIGURATION")
+    print("==========================================")
+    print(f"Codec:       {selected.name}")
+    print(f"Layout ID:   {layout_id}")
+    print(f"AppleALC:    {version}")
+    print(f"Git:         {commit}")
+
+    keep_working = confirm(
+        "\nKeep the slimmed working directory after building?", default=True
+    )
+    if not confirm("\nProceed with slimming and compiling?", default=True):
+        abort("Cancelled.")
+
+    final_name = f"AppleALC-{selected.name}-layout{layout_id}.kext"
+    final_path = BUILDS / final_name
+
+    if final_path.exists():
+        if not confirm(f"\n{final_path} already exists. Replace it?", default=False):
+            abort("Cancelled.")
+
+    prepare()
+    RESOURCES = OUTPUT / "Resources"
+
+    # Build the untouched copy first to obtain a like-for-like baseline.
+    original_kext = run_build(
+        "Building full, unmodified AppleALC for size comparison..."
+    )
+    original_size = directory_size(original_kext)
+
+    working_codec = RESOURCES / selected.name
+    copied_layout = working_codec / layout.name
+    if not copied_layout.is_file():
+        abort(f"Selected layout was not copied into the working tree: {copied_layout}")
+
+    codec_id = slim_codec(working_codec, layout_id, copied_layout)
+    slim_other_codecs(working_codec)
+    slim_pinconfig(layout_id, codec_id)
+
+    slimmed_kext = run_build("Building slimmed AppleALC...")
+    slimmed_size = directory_size(slimmed_kext)
+
+    BUILDS.mkdir(parents=True, exist_ok=True)
+    if final_path.exists():
+        shutil.rmtree(final_path)
+    shutil.copytree(slimmed_kext, final_path)
+
+    reduction = (1 - slimmed_size / original_size) * 100 if original_size else 0
+
+    print("\n==========================================")
+    print("          APPLEALC BUILD SUCCESSFUL")
+    print("==========================================")
+    print(f"Codec:             {selected.name}")
+    print(f"Layout:            {layout_id}")
+    print(f"AppleALC:          {version}")
+    print(f"Original kext:     {format_size(original_size)}")
+    print(f"Slimmed kext:      {format_size(slimmed_size)}")
+    print(f"Size reduction:    {reduction:.1f}%")
+    print(f"\nOutput:            {final_path}")
+
+    if keep_working:
+        print(f"Working directory: {OUTPUT}")
+    else:
+        shutil.rmtree(OUTPUT)
+        print("Working directory: removed")
+
+    print("==========================================")
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n\nCancelled by user.")
+        raise SystemExit(130)
