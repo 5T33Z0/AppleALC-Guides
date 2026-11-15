@@ -196,29 +196,14 @@ def entry_comment(entries, identifier):
     return None
 
 
-def layout_platform_id(codec, layout_id):
-    """Read PathMapID from a layout file without aborting on errors."""
-    try:
-        raw = (codec / f"layout{layout_id}.xml").read_bytes()
-        wrapped = (
-            b'<?xml version="1.0" encoding="UTF-8"?>'
-            b'<plist version="1.0">' + raw + b'</plist>'
-        )
-        return plistlib.loads(wrapped)["PathMapRef"][0]["PathMapID"]
-    except Exception:
-        return None
-
-
 def layout_description(codec, layout_id, files):
     # Primary: Files > Layouts > <entry with this Id> > Comment
     comment = entry_comment(files.get("Layouts"), layout_id)
     if comment:
         return comment
 
-    # Fallback: Files > Platforms > <entry with this layout's PathMapID> > Comment
-    comment = entry_comment(
-        files.get("Platforms"), layout_platform_id(codec, layout_id)
-    )
+    # Fallback: Files > Platforms > <entry with this layout's Id> > Comment
+    comment = entry_comment(files.get("Platforms"), layout_id)
     if comment:
         return comment
 
@@ -306,7 +291,7 @@ def slim_codec(codec, layout_id, layout):
 
     print(f"\nCodecID:   {codec_id}")
     print(f"LayoutID:  {layout_id}")
-    print(f"PathMapID: {platform_id}")
+    print(f"PathMapID: {platform_id} (internal)")
 
     info_path = codec / "info.plist"
     info = load_plist(info_path)
@@ -322,9 +307,11 @@ def slim_codec(codec, layout_id, layout):
     if not layout_entry:
         abort("Selected layout is not registered in codec info.plist.")
 
-    platform_entry = find_entry(files["Platforms"], platform_id)
+    # Platforms entries share the Id of their layout. PathMapID inside the
+    # layout file is an internal PathMap identifier, not a Platforms entry Id.
+    platform_entry = find_entry(files["Platforms"], layout_id)
     if not platform_entry:
-        abort(f"Platform resource {platform_id} not registered.")
+        abort(f"Platform resource for layout {layout_id} not registered.")
 
     layout_path = layout_entry.get("Path")
     platform_path = platform_entry.get("Path")
