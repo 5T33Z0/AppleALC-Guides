@@ -26,4 +26,4 @@
 > - If your system supports digital audio via DisplayPort or HDMI, the "Audio" folder will contaon more than one Codec dump. Usually, `Codec0.txt` is the one from your audio Codec while additional `.txt` files are dumps from audio codecs on graphics cards (integrated and/or external). If you are uncertain, open the file(s). The description of which Codec the dump is from is listed at the beginnen (after the device path). So if the Codec is for AMD, NVIDIA or Intel it's not the right one.
 > - If the Codec dump doesn't contain enough information to create the Codec Graph visualization you have to revert to dumping the Audio Codec data with a live Linux version!
 
-Continue with chapter [III of the guide](/docs/02_Codec_Dump_Analysis.md)
+Continue with chapter [III of the guide](/AppleALC_Layout-ID/docs/02_Codec_Dump_Analysis.md)
