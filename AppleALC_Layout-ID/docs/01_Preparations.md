@@ -127,4 +127,4 @@ If you can live without a schematic of the Codec, you *can* use the dumps create
 
 ---
 
-[**Home:** Documentation Index ↑](README.md) | [**Next:** Codec Dump Analysis →](02_Codec_Dump_Analysis.md)
+[**Back to Index:** ↑](/AppleALC_Layout-ID) | [**Next:** Codec Dump Analysis →](02_Codec_Dump_Analysis.md)
