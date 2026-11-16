@@ -28,7 +28,7 @@ As of macOS 26 Tahoe beta 2, **AppleALC no longer works** for analog onboard aud
 **Fixes**:
 
 - [**SimpleHDA.kext**](https://github.com/laobamac/SimpleHDA) – restores AppleHDA. No Root Patching with OCLP required. Place kext after AppleALC.
-- **OCLP root patching** — reinstates `AppleHDA.kext` and its associated dylib via root volume patches, restoring full AppleALC functionality. Requires lowered SIP and an OCLP-based patcher. See [Audio on macOS Tahoe for Hackintosh systems](https://github.com/5T33Z0/OCLP4Hackintosh/blob/main/docs/Guides/Enable_Features/Audio/Audio_Tahoe.md) for details.
+- **OCLP root patching** – reinstates `AppleHDA.kext` and its associated dylib via root volume patches, restoring full AppleALC functionality. Requires lowered SIP and an OCLP-based patcher. See [Audio on macOS Tahoe for Hackintosh systems](https://github.com/5T33Z0/OCLP4Hackintosh/blob/main/docs/Guides/Enable_Features/Audio/Audio_Tahoe.md) for details.
 
 ## Credits and Resources
 &rarr; see respective sections for details.
