@@ -34,7 +34,7 @@ From a user's perspective, making audio work in hackintosh is a no-brainer: add 
 
 ### 💡 Tips
 - Click on the little Header icon next to `README.md` to navigate in the document quickly
-- [Backup files you change](https://github.com/5T33Z0/AppleALC-Guides/tree/main/File_Management) in the Source Code and document configuration changed! Otherwise you will completely lose track of PinConfig and PathMap combinations you have tried already! I prepared a [table for taking notes](https://github.com/5T33Z0/AppleALC-Guides/blob/main/AppleALC_Layout-ID/Testing_Notes.md) which might help. You can open it in a Markdown Editor such as Macdown or use Visual Studio Code.
+- [Backup files you change](https://github.com/5T33Z0/AppleALC-Guides/tree/main/File_Management) in the Source Code and document configuration changed! Otherwise you will completely lose track of PinConfig and PathMap combinations you have tried already! I prepared a [Template for Note taking](https://github.com/5T33Z0/AppleALC-Guides/blob/main/AppleALC_Layout-ID/Testing_Notes.md) which might help. You can open it in a Markdown Editor such as Macdown or use Visual Studio Code.
 
 ## II. Preparations
 Creating a Layout-ID for AppleALC is one of the more challenging tasks for "regular" hackintosh users who are not programmers (me included). It's not only challenging and time consuming, it's also confusing and requires a lot of tools and prep work. So let's get it out the way right away.
