@@ -59,7 +59,7 @@ Now that we got the PinConfig out of the way, we can continue integrating the re
 
 ## XI. Add `Platforms.xml` and `layout.xml` to `info.plist`
 
-Now the we have edited all the files we need, we have to integrate them into the AppleALC Source Code. As mentioned [earlier](README.md#important-files-we-have-to-work-on), there are 2 info.plists which have to be edited in the AppleALC Source Code. In this case, I am referring to the second one, located inside the ALCXXX folder. In my case the one in `AppleALC/Resources/ALC269`.
+Now the we have edited all the files we need, we have to integrate them into the AppleALC Source Code. As mentioned [earlier](01_Preparations.md#files-we-have-to-work-on), there are 2 info.plists which have to be edited in the AppleALC Source Code. In this case, I am referring to the second one, located inside the ALCXXX folder. In my case the one in `AppleALC/Resources/ALC269`.
 
 - Open the `info.plist`
 - Look for the `Files` Dictionary:</br>![Info01](https://user-images.githubusercontent.com/76865553/171393791-6c8f90ab-e860-42e0-940a-1b2fa26a1fc6.png)
