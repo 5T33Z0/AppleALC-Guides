@@ -2,7 +2,7 @@
 
 **INDEX**
 
-- [**Main Guide**](/docs)
+- [**Main Guide**](/AppleALC_Layout-ID/docs/)
 - [**Codec-Graph Installation**](CodecGraph_Installation.md)
 - [**AppleALC Layout Creation Workflow**](Workflow.md)
 - [**Using `alc-verb` for Troubleshooting**](alc-verb_explained.md)
