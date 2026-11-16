@@ -79,4 +79,4 @@ Once your Layout is approved it will be part of the main AppleALC repo and you c
 
 ---
 
-[← **Previous:** Integrate Files](06_Integrate_Files.md) | [**Home:** Documentation Index ↑](README.md)
+[← **Previous:** Integrate Files](06_Integrate_Files.md) | [**Back to Index:** ↑](/AppleALC_Layout-ID)
