@@ -3,13 +3,13 @@
 **INDEX**
 
 ## Main Guide
-1. **Chapters I and II:** [**Preparations**](01_Preparations.md)
-2. **Chapters III and IV:** [**Codec Dump Analysis**](02_Codec_Dump_Analysis.md)
-3. **Chapters V to VII:** [**Create PathMap & `PlatformsXX.xml`**](03_Create_Pathmap_Platforms-XML.md)
-4. **Chapter VII:** [**Create `LayoutXX.xml`**](04_Create_Layout-XML.md)
-5. **Chapter IX:** [**Create a `PinConfig`**](05_Create_PinConfig.md)
-6. **Chapters X and XI:** [**Integrating `PinConfig`, `PlatformsXX.xml` and `LayoutXX.xml` into AppleALC**](06_Integrate_Files.md)
-7. **Chapters XII to XIV:** [**Compiling AppleALC.kext, Testing, Creating a PR**](07_Compiling_AppleALC.md)
+1. **Chapters I and II:** [**Preparations**](/docs/01_Preparations.md)
+2. **Chapters III and IV:** [**Codec Dump Analysis**](/docs/02_Codec_Dump_Analysis.md)
+3. **Chapters V to VII:** [**Create PathMap & `PlatformsXX.xml`**](/docs/03_Create_Pathmap_Platforms-XML.md)
+4. **Chapter VII:** [**Create `LayoutXX.xml`**](/docs/04_Create_Layout-XML.md)
+5. **Chapter IX:** [**Create a `PinConfig`**](/docs/05_Create_PinConfig.md)
+6. **Chapters X and XI:** [**Integrating `PinConfig`, `PlatformsXX.xml` and `LayoutXX.xml` into AppleALC**](/docs/06_Integrate_Files.md)
+7. **Chapters XII to XIV:** [**Compiling AppleALC.kext, Testing, Creating a PR**](/docs/07_Compiling_AppleALC.md)
 
 ## Additional Resources
 - [**Codec-Graph Installation**](CodecGraph_Installation.md)
