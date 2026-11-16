@@ -6,15 +6,16 @@ Now that we (finally) have our `PinConfig`, we have to integrate it into the App
 ### Finding an unused Layout-ID number
 In order to find a yet unused Layout-ID for your Codec, you have to check which Layout-IDs exist already and chose a different one in the range from 11 to 255:
 
-- Visit [this repo](https://github.com/dreamwhite/ChonkyAppleALC-Build)
-- Click on the folder of your Codec manufacturer (in my case it's "Realtek")
-- Next, click on the .md file representing your Codec (in my case: [ALC269](https://github.com/dreamwhite/ChonkyAppleALC-Build/blob/master/Realtek/ALC269.md))
+- In the AppleALC-master folder, browse the `Resources` folder
+- Find the folder representing your Codec (in my example it's `ALC269`)
 - As you can see, ALC269 has a lot of Layout-IDs already.
 - Pick a Layout-ID which is not used already (make a mental note or write it down somewhere)
 
 I am picking Layout-ID 39 because a) it's available and b) followed by by the Lenovo W530 which is the workstation version of the T530.
 
-**IMPORTANT**: Layout-IDs 1 to 10 are reserved. Layout-IDs 11 to 255 are user-assignable, though values above 99 are rarely used in practice. 
+> [!IMPORTANT]
+>
+> Layout-IDs 1 to 10 are reserved. Layout-IDs 11 to 255 are user-assignable, though values above 99 are rarely used in practice. 
 
 #### Scenario 1: Modifying data of an existing Layout-ID
 
@@ -42,7 +43,9 @@ I am picking Layout-ID 39 because a) it's available and b) followed by by the Le
 14. Copy the raw text to the Clipboard
 15. Close the Plist Editor but **DON'T SAVE THE FILE!!!**
 
-:warning: **IMPORTANT**: I've noticed that PlistEdit Pro and Xcode tend to mess up huge plist files and change formatting and data which shouldn't be changed and which you didn't even touch. This will result in your Pull Request being rejected. There have also been reports about Xcode changing `<integer>` to `<real>` which is a nightmare. Because if this slips into the source code unnoticed it will cause kernel panics during boot on the target system, which happened with the release of AppleALC 1.7.3.
+> [!IMPORTANT]
+>
+> I've noticed that PlistEdit Pro and Xcode tend to mess up huge plist files and change formatting and data which shouldn't be changed and which you didn't even touch. This will result in your Pull Request being rejected. There have also been reports about Xcode changing `<integer>` to `<real>` which is a nightmare. Because if this slips into the source code unnoticed it will cause kernel panics during boot on the target system, which happened with the release of AppleALC 1.7.3.
 
 To avoid this, use Visual Studio Code or TextEdit to paste the entry instead:
 
