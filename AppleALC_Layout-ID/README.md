@@ -1,7 +1,5 @@
 # How to create/modify a Layout-ID for AppleALC
 
-**INDEX**
-
 ## Main Guide
 1. **Chapters I and II:** [**Preparations**](/docs/01_Preparations.md)
 2. **Chapters III and IV:** [**Codec Dump Analysis**](/docs/02_Codec_Dump_Analysis.md)
