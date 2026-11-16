@@ -9,5 +9,5 @@ For ease of use, I've split the original guide into separate documents.
 3. **Chapters V to VII:** [**Creating a Pathmap and integrating it into PlatformsXX.xml**](03_Create_Pathmap_Platforms-XML.md)
 4. **Chapter VII:** [**Modifying `LayoutXX.xml`**](04_Create_Layout-XML.md)
 5. **Chapter IX:** [**Creating a `PinConfig`**](05_Create_PinConfig.md)
-6. **Chapters X and XI:** [**Integrating `PinConfig`, `PlatformsXX.xml` and `LayoutXX.xml` into AppleALC**](06_Integerate_Files.md)
+6. **Chapters X and XI:** [**Integrating `PinConfig`, `PlatformsXX.xml` and `LayoutXX.xml` into AppleALC**](06_Integrate_Files.md)
 7. **Chapters XII to XIV:** [**Compiling AppleALC.kext, Testing, Creating a PR**](07_Compiling_AppleALC.md)
