@@ -127,4 +127,4 @@ If you can live without a schematic of the Codec, you *can* use the dumps create
 
 ---
 
-[**Next:** Codec Dump Analysis →](02_Codec_Dump_Analysis.md)
+[**Home:** Documentation Index ↑](README.md) | [**Next:** Codec Dump Analysis →](02_Codec_Dump_Analysis.md)
