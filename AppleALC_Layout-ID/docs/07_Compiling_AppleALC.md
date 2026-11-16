@@ -76,3 +76,7 @@ Once your Layout is approved it will be part of the main AppleALC repo and you c
 	- [Mermaid](https://mermaid-js.github.io/mermaid/#/README) script for creating flowcharts and diagrams in Markdown
 	- Core-i99 for PinConfigurator tips
 	- Hardwaresecrets – [How on-board Audio works](https://hardwaresecrets.com/how-on-board-audio-works/)
+
+---
+
+[← **Previous:** Integrate Files](06_Integerate_Files.md) | [**Home:** Documentation Index ↑](README.md)

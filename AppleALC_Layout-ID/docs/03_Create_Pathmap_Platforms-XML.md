@@ -246,4 +246,8 @@ So, I add the path 27 - 12 - 2 to `Platforms39.xml`:
 	- Boost Settings (If `Amp-In Caps` of destination Node contain `nsteps=3`, add `Boost` entry to the last Node in the path (here NID 25)
 - Let's look inside Device 2. It contains the following Nodes and settings:</br>![Input01Nodes](https://user-images.githubusercontent.com/76865553/173223291-53c78f9e-976e-4044-9eb8-812b709dee86.png)
 - Repeat for other devices you want to add to the PathMap
-- Save the file.
+- Save the file
+
+---
+
+[← **Previous:** Codec Dump Analysis](02_Codec_Dump_Analysis.md) | [**Next:** Create Layout.xml →](04_Create_Layout-XML.md)

@@ -76,3 +76,8 @@ Now the we have edited all the files we need, we have to integrate them into the
 > [!IMPORTANT]
 >
 > If these entries don't exist, the AppleALC.kext will be compiled but your Layout-ID entry won't be included, aka no Sound!
+
+---
+
+[← **Previous:** Create PinConfig](05_Create_PinConfig.md) | [**Next:** Compiling AppleALC →](07_Compiling_AppleALC.md)
+

@@ -171,3 +171,7 @@ As you can see, Node 21 has 2 possible connections (Node 12 and 13) and is curre
 </details>
 
 We will come back to the schematic later… 
+
+---
+
+[← **Previous:** Preparations](01_Preparations.md) | [**Next:** Create PathMap & Platforms.xml →](03_Create_Pathmap_Platforms-XML.md)

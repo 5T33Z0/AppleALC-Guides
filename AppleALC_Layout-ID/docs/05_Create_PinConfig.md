@@ -116,3 +116,7 @@ Parameter        | Description
 >
 > Ignore NID 24, it's unused.
 
+---
+
+[← **Previous:** Create Layout.xml](04_Create_Layout-XML.md) | [**Next:** Integrate Files →](06_Integerate_Files.md)
+

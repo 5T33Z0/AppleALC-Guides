@@ -58,3 +58,7 @@ NodeID | GPIO VREF = 50%</br>Dec | GPIO VREF = 50% </br>Hex| GPIO VREF = 80%</br
 
 ### Creating a new `LayoutXX.xml` from scratch
 TODO…
+
+---
+
+[← **Previous:** Create PathMap & Platforms.xml](03_Create_Pathmap_Platforms-XML.md) | [**Next:** Create PinConfig →](05_Create_PinConfig.md)
