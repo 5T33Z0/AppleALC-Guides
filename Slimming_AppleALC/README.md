@@ -5,14 +5,6 @@ This guide is for compiling AppleALC for your Codec and the audio layout(s) of y
 >
 > The slimming process described in this guide can now be automated with a Python script. It lets you search for your codec (by name or by layout comment), pick a layout, and builds a slimmed AppleALC.kext for you, so you don't have to remove the resources and edit the plists by hand. See the script's [README](/Slimming_AppleALC/AppleALC_Slim_Builder/README.md) for requirements and instructions.
 
-> [!IMPORTANT]
->
-> **Limitation:** Not every Layout-ID has a corresponding `LayoutXX.xml`. Some configurations reference a PathMap defined in a platform file using a different ID.
->
-> **Example:** ALC892 Layout-ID 98 uses `Platforms98.xml`, which defines PathMap 5. `Layout5.xml` contains the corresponding `PathMapRef` entry. Both resources must be retained when slimming AppleALC for this configuration.
->
-> In such cases, you must slim the kext manually. If you are using a Layout-ID that is missing from the script output but is known to work, this limitation may apply.
-
 ## Preparations
 - Download and install the [correct version](https://developer.apple.com/support/xcode/) of [**Xcode**](https://developer.apple.com/download/all/?q=xcode) supported by your macOS. The download is about 10 GB and the installed application is about 30 GB in total, so make sure you have enough disk space. And: move the app to the "Programs" folder – otherwise compiling fails.
 - Configure Xcode as [described here](https://github.com/5T33Z0/AppleALC-Guides/tree/main/AppleALC_Layout-ID#configuring-xcode)
