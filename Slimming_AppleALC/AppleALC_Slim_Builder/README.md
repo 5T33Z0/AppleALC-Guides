@@ -25,7 +25,7 @@ The stock AppleALC kext ships resources for every supported codec and layout, wh
 >
 > **Example:** ALC892 Layout-ID 98 uses `Platforms98.xml`, which defines PathMap 5. `Layout5.xml` contains the corresponding `PathMapRef` entry. Both resources must be retained when slimming AppleALC for this configuration.
 >
-> In such cases, you must slim the kext manually. If you are using a Layout-ID that is missing from the script output but is known to work, this limitation may apply.
+> In such cases, you must slim the kext manually. If you are using a Layout-ID that is missing from the script output but is known to work, this limitation applies.
 
 ## Requirements
 
