@@ -1,5 +1,7 @@
 # AppleALC Slim Builder
 
+<img width="599" height="357" alt="alcslimmer" src="https://github.com/user-attachments/assets/c2c18f3f-11f7-483e-b126-30a8ef0eb9ff" />
+
 Build a codec- and layout-specific `AppleALC.kext` from an AppleALC source checkout.
 
 ## About
