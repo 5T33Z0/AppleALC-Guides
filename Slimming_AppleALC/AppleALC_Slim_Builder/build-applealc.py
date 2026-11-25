@@ -5,17 +5,25 @@ Builds a codec/layout-specific AppleALC.kext from an isolated copy
 of an AppleALC source checkout.
 """
 
+import hashlib
+import json
 import plistlib
 import re
 import shutil
 import subprocess
 import sys
+import tempfile
+import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 OUTPUT = ROOT.parent / "AppleALC-Slimmed"
 RESOURCES = ROOT / "Resources"
 BUILDS = ROOT / "Builds"
+
+SDK_URL = "https://github.com/acidanthera/MacKernelSDK.git"
+# Build list of the Dortania build repo (the data behind dortania.github.io/builds)
+LILU_BUILDS_URL = "https://raw.githubusercontent.com/dortania/build-repo/builds/config.json"
 
 
 def abort(message):
@@ -56,13 +64,44 @@ def find_codec_folders():
     return sorted(folders, key=lambda p: p.name.lower())
 
 
+_files_cache = {}
+
+
+def codec_files(codec):
+    """The Files dictionary of the codec's info.plist (cached, {} if unreadable)."""
+    key = str(codec)
+    if key not in _files_cache:
+        try:
+            files = load_plist(codec / "info.plist").get("Files", {})
+            _files_cache[key] = files if isinstance(files, dict) else {}
+        except Exception:
+            _files_cache[key] = {}
+    return _files_cache[key]
+
+
 def layout_ids(codec):
-    ids = []
-    for path in codec.glob("layout*.xml"):
-        match = re.fullmatch(r"layout(\d+)", path.stem, flags=re.IGNORECASE)
-        if match:
-            ids.append(int(match.group(1)))
-    return sorted(set(ids))
+    """Layout IDs as registered in info.plist.
+
+    Not every ID has its own layoutN.xml: some IDs reuse another layout's file
+    (e.g. ALC892 layout 98 uses layout5.xml together with Platforms98.xml).
+    """
+    ids = set()
+    for entry in codec_files(codec).get("Layouts", []) or []:
+        try:
+            ids.add(int(entry["Id"]))
+        except (KeyError, TypeError, ValueError):
+            continue
+    return sorted(ids)
+
+
+def layout_resource(codec, layout_id):
+    """The layout XML file a Layout ID is registered with, or None."""
+    for entry in codec_files(codec).get("Layouts", []) or []:
+        if isinstance(entry, dict) and str(entry.get("Id")) == str(layout_id):
+            path = entry.get("Path")
+            if path:
+                return codec / path.removesuffix(".zlib")
+    return None
 
 
 _comment_cache = {}
@@ -74,15 +113,12 @@ def codec_comments(codec):
         return _comment_cache[codec.name]
 
     comments = []
-    try:
-        files = load_plist(codec / "info.plist").get("Files", {})
-        for key in ("Layouts", "Platforms"):
-            for entry in files.get(key, []) or []:
-                comment = entry.get("Comment") if isinstance(entry, dict) else None
-                if isinstance(comment, str) and comment.strip():
-                    comments.append(comment.strip())
-    except Exception:
-        pass
+    files = codec_files(codec)
+    for key in ("Layouts", "Platforms"):
+        for entry in files.get(key, []) or []:
+            comment = entry.get("Comment") if isinstance(entry, dict) else None
+            if isinstance(comment, str) and comment.strip():
+                comments.append(comment.strip())
 
     _comment_cache[codec.name] = comments
     return comments
@@ -215,12 +251,7 @@ def select_layout(codec):
     if not ids:
         abort(f"No layouts found for {codec.name}.")
 
-    try:
-        files = load_plist(codec / "info.plist").get("Files", {})
-        if not isinstance(files, dict):
-            files = {}
-    except Exception:
-        files = {}
+    files = codec_files(codec)
 
     print(f"\nAvailable layouts for {codec.name}:\n")
     for layout_id in ids:
@@ -238,9 +269,11 @@ def select_layout(codec):
             continue
 
         layout_id = int(value)
-        layout = codec / f"layout{layout_id}.xml"
+        layout = layout_resource(codec, layout_id)
 
-        if layout.is_file():
+        if layout is not None and layout.is_file():
+            if layout.name.lower() != f"layout{layout_id}.xml":
+                print(f"Layout {layout_id} uses the shared resource {layout.name}.")
             return layout_id, layout
 
         print("Layout not found for this codec.")
@@ -422,14 +455,133 @@ def source_version():
     return version, commit
 
 
-def prepare():
+def download(url, destination, quiet=False):
+    """Download with curl, which uses the macOS system certificate store."""
+    if shutil.which("curl") is None:
+        abort("curl not found.")
+    command = ["curl", "-fL", "--retry", "2", "-sS" if quiet else "-#",
+               "-o", str(destination), url]
+    if subprocess.run(command).returncode != 0:
+        abort(f"Download failed: {url}")
+
+
+def sha256_of(path):
+    digest = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def extract_zip(archive, destination):
+    # ditto keeps permissions and metadata exactly as macOS expects them.
+    if shutil.which("ditto"):
+        result = subprocess.run(["ditto", "-x", "-k", str(archive), str(destination)])
+        if result.returncode != 0:
+            abort("Could not extract the downloaded archive.")
+        return
+
+    with zipfile.ZipFile(archive) as z:
+        z.extractall(destination)
+        for info in z.infolist():
+            mode = info.external_attr >> 16
+            if mode:
+                (Path(destination) / info.filename).chmod(mode & 0o777)
+
+
+def sdk_complete(sdk):
+    return (sdk / "Headers").is_dir() and (sdk / "Library" / "universal").is_dir()
+
+
+def ensure_sdk():
+    """Clone MacKernelSDK into the AppleALC root if it is missing."""
+    sdk = ROOT / "MacKernelSDK"
+    if sdk_complete(sdk):
+        return
+
+    if sdk.exists() and any(sdk.iterdir()):
+        abort(f"{sdk} exists but looks incomplete. "
+              "Delete it and run the script again.")
+
+    print(f"\nMacKernelSDK not found. Cloning {SDK_URL} ...")
+    try:
+        result = subprocess.run(["git", "clone", "--depth", "1", SDK_URL, str(sdk)])
+    except FileNotFoundError:
+        abort("git not found. Install the Xcode command line tools "
+              "(xcode-select --install).")
+    if result.returncode != 0:
+        abort("Cloning MacKernelSDK failed.")
+    if not sdk_complete(sdk):
+        abort("MacKernelSDK was cloned but looks incomplete.")
+
+
+def latest_lilu_debug(config):
+    builds = [
+        v for v in config.get("Lilu", {}).get("versions", [])
+        if v.get("links", {}).get("debug")
+    ]
+    if not builds:
+        abort("No Lilu Debug build found in the Dortania build list.")
+    return max(builds, key=lambda v: v.get("date_built", ""))
+
+
+def ensure_lilu():
+    """Download the newest Lilu Debug build from Dortania if Lilu.kext is missing."""
+    kext = ROOT / "Lilu.kext"
+    if kext.is_dir():
+        return
+    if kext.exists():
+        abort(f"{kext} exists but is not a folder.")
+
+    print("\nLilu.kext not found. Downloading the latest Debug build "
+          "from Dortania ...")
+
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp = Path(tmp)
+
+        config_file = tmp / "config.json"
+        download(LILU_BUILDS_URL, config_file, quiet=True)
+        try:
+            config = json.loads(config_file.read_text(encoding="utf-8"))
+        except ValueError:
+            abort("Could not read the Dortania build list.")
+
+        build = latest_lilu_debug(config)
+        link = build["links"]["debug"]
+        expected = build.get("hashes", {}).get("debug", {}).get("sha256")
+        sha = build.get("commit", {}).get("sha", "")[:7]
+        print(f"Lilu {build.get('version', '?')} "
+              f"(commit {sha}, built {build.get('date_built', '')[:10]})")
+
+        archive = tmp / Path(link).name
+        download(link, archive)
+
+        if expected:
+            if sha256_of(archive) != expected:
+                abort("Checksum mismatch for the downloaded Lilu archive.")
+        else:
+            print("Warning: no checksum available for this build.")
+
+        extracted = tmp / "extracted"
+        extracted.mkdir()
+        extract_zip(archive, extracted)
+
+        found = extracted / "Lilu.kext"
+        if not found.is_dir():
+            abort("The downloaded archive does not contain Lilu.kext.")
+        shutil.copytree(found, kext, symlinks=True)
+
+    print(f"Installed {kext}")
+
+
+def setup_dependencies():
     if not (ROOT / "AppleALC.xcodeproj").exists():
         abort("Run this script from the AppleALC repository root.")
-    if not (ROOT / "MacKernelSDK").exists():
-        abort("MacKernelSDK missing. Clone it into the AppleALC root.")
-    if not (ROOT / "Lilu.kext").exists():
-        abort("Lilu.kext missing from the AppleALC root.")
+    ensure_sdk()
+    ensure_lilu()
 
+
+def prepare():
     if OUTPUT.exists():
         if not confirm(f"\n{OUTPUT} already exists. Replace it?", default=False):
             abort("Cancelled.")
@@ -482,6 +634,7 @@ def format_size(size):
 def main():
     global RESOURCES
 
+    setup_dependencies()
     version, commit = source_version()
 
     print("\n==========================================")
